@@ -1,6 +1,9 @@
 #include <string>
 #include <tokenizer.hh>
 #include <token.hh>
+#include <iostream>
+
+using namespace std;
 
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   int sizearray = 0;
@@ -17,18 +20,14 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
 
 int tokenizer::getSizeArray() { return sizeArray; }
 
-string tokenizer::getState() { return state; }
-
-
-// se retornará el arreglo de tokens}
-//corregir para probar el estado, cambiar a String
-Token *tokenizer::tokenList() { 
-  
-  Token *vectorOfTokens[20]; 
-
+// se retornará el arreglo de tokens
+Token* tokenizer::tokenList() { 
+  //esto genera una fuga de memoria
+  Token *vectorOfTokens[sizeArray]; 
   //Se lee la entrada el usuario
   for(int i = 0; i < inputUser.size(); i++){
       //este es para inicializar la clase Token
+      
       string general = "";
       if(inputUser[i] == '+'
        || inputUser[i] == '-'
@@ -37,10 +36,10 @@ Token *tokenizer::tokenList() {
        {
           state = "Operacion";
           general += inputUser[i];
-          Token token(TokenType::TOKEN_TYPE_OPERATOR, general);
-          *vectorOfTokens[i] = token;
+          cout << state << endl;
+          vectorOfTokens[i] = new Token(TokenType::TOKEN_TYPE_OPERATOR, general);
        }
+       
   }
   return *vectorOfTokens;
-  
 }
