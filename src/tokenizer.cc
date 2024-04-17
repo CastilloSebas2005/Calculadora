@@ -15,3 +15,7 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
 }
 
 int tokenizer::getSizeArray() { return sizeArray; }
+
+Token* tokenizer:: tokenList(){
+    Token* vectorOfTokens[20];
+}
