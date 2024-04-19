@@ -39,7 +39,18 @@ Token* tokenizer::tokenList() {
           cout << state << endl;
           vectorOfTokens[i] = new Token(TokenType::TOKEN_TYPE_OPERATOR, general);
        }
-       
+       else if(inputUser[i] >= 47 && inputUser[i] <= 57){
+          state = "Numero";
+          general += inputUser[i];
+          cout << state << endl;
+          vectorOfTokens[i] = new Token(TokenType::TOKEN_TYPE_NUMBER, general);
+       }
+       else{
+          state = "Desconocido";
+          general += inputUser[i];
+          cout << state << endl;
+          vectorOfTokens[i] = new Token(TokenType::TOKEN_TYPE_UNKNOWN, general);
+       }
   }
   return *vectorOfTokens;
 }
