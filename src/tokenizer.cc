@@ -1,56 +1,39 @@
-#include <string>
-#include <tokenizer.hh>
-#include <token.hh>
 #include <iostream>
+#include <string>
+#include <token.hh>
+#include <tokenizer.hh>
 
 using namespace std;
 
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   int sizearray = 0;
-
-  for (int i = 0; i < inputuser.size(); i++) { // obtiene el tamaño sin espacios de el array de tokens
-    if (inputuser[i] != ' ') {
-      sizearray += 1; // tamaño del input sin espacios, esto para asignarle un
-                      // tamaño adecuado al arreglo de tokens que se retornará
+  for (int i = 0; i < inputuser.size(); i++) { 
+    if (inputuser[i] >= '0' && inputuser[i] <= '9') {
+      sizearray++;
+      TokenType number = TokenType::TOKEN_TYPE_NUMBER;
+      while (number == TokenType::TOKEN_TYPE_NUMBER) {
+        if (inputuser[i] >= '0' && inputuser[i] <= '9') {
+          number = TokenType::TOKEN_TYPE_NUMBER;
+          i++;
+        } else {
+          number = TokenType::TOKEN_TYPE_UNKNOWN;
+          i--;
+        }
+      }
+    }
+    else if(inputuser[i] == '+'
+    || inputuser[i] == '-'
+    || inputuser[i] == '*'
+    || inputuser[i] == '/'
+    || inputuser[i] == '_'
+    || inputuser[i] == '('
+    || inputuser[i] == ')'
+    || inputuser[i] == 'v'
+    || inputuser[i] == '^'){
+      sizearray++;
     }
   }
-
   sizeArray = sizearray;
 }
 
 int tokenizer::getSizeArray() { return sizeArray; }
-
-// se retornará el arreglo de tokens
-Token* tokenizer::tokenList() { 
-  //esto genera una fuga de memoria
-  Token *vectorOfTokens[sizeArray]; 
-  //Se lee la entrada el usuario
-  for(int i = 0; i < inputUser.size(); i++){
-      //este es para inicializar la clase Token
-      
-      string general = "";
-      if(inputUser[i] == '+'
-       || inputUser[i] == '-'
-       || inputUser[i] == '*'
-       || inputUser[i] == '/')
-       {
-          state = "Operacion";
-          general += inputUser[i];
-          cout << state << endl;
-          vectorOfTokens[i] = new Token(TokenType::TOKEN_TYPE_OPERATOR, general);
-       }
-       else if(inputUser[i] >= 47 && inputUser[i] <= 57){
-          state = "Numero";
-          general += inputUser[i];
-          cout << state << endl;
-          vectorOfTokens[i] = new Token(TokenType::TOKEN_TYPE_NUMBER, general);
-       }
-       else{
-          state = "Desconocido";
-          general += inputUser[i];
-          cout << state << endl;
-          vectorOfTokens[i] = new Token(TokenType::TOKEN_TYPE_UNKNOWN, general);
-       }
-  }
-  return *vectorOfTokens;
-}

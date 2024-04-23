@@ -13,7 +13,5 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer prueba ("3+7-#78*6/0-9$");
-  Token* pruebaTokens = prueba.tokenList();
   return 0;
 }
