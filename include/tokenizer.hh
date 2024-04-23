@@ -4,7 +4,6 @@
 class tokenizer {
 public:
   tokenizer(string inputuser);
-  Token* tokenList();
   int getSizeArray();
 
 private:
@@ -13,5 +12,4 @@ private:
   string state;
   string inputUser;
   static TokenType readState(string stateOfToken);
-  Token* vectorOfTokens[]; //este vector es lo que se pretenderá retornar de esta clase
 };
