@@ -13,7 +13,7 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer prueba("4+9");
+  tokenizer prueba("0         _            + 45754454");
   prueba.obtenerLista();
   return 0;
 }
