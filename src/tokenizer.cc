@@ -1,39 +1,59 @@
 #include <iostream>
+#include <queue> //esta estructura de datos fue tomada de https://cplusplus.com/reference/queue/queue/
 #include <string>
 #include <token.hh>
 #include <tokenizer.hh>
 
 using namespace std;
-
+                                          
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
-  int sizearray = 0;
-  for (int i = 0; i < inputuser.size(); i++) { 
-    if (inputuser[i] >= '0' && inputuser[i] <= '9') {
-      sizearray++;
-      TokenType number = TokenType::TOKEN_TYPE_NUMBER;
-      while (number == TokenType::TOKEN_TYPE_NUMBER) {
-        if (inputuser[i] >= '0' && inputuser[i] <= '9') {
-          number = TokenType::TOKEN_TYPE_NUMBER;
-          i++;
-        } else {
-          number = TokenType::TOKEN_TYPE_UNKNOWN;
-          i--;
-        }
+
+  double safeNumber = 0;
+  int position = 0;
+  string previousState;
+   string general;
+  while (position < inputuser.size()) {
+   
+    if (inputuser[position] == '+' || inputuser[position] == '-' ||
+        inputuser[position] == '*' || inputuser[position] == '/' ||
+        inputuser[position] == '_' || inputuser[position] == 'v' ||
+        inputuser[position] == '^') {
+      previousState = state;
+      state = "Operation";
+      if (state == previousState) {
+        cout << "Problema" << endl;
+        // esta función fuerza la salida
+        exit(1);
+      } else {
+        general = inputuser[position];
+        Token tokencito(TokenType::TOKEN_TYPE_OPERATOR, general);
+        cout << "Numero Token? " << tokencito.isNumber() << endl;
+        tokenList.push(tokencito);
+      }
+    } else if (inputuser[position] >= '0' && inputuser[position] <= '9') {
+      previousState = state;
+      state = "Number";
+      safeNumber = inputuser[position] - '0';
+      if(state == previousState){
+        safeNumber = safeNumber*10+inputUser[position] - '0';
+        
+      }else{
+        general = to_string(safeNumber); 
+        Token tokencito(TokenType::TOKEN_TYPE_OPERATOR, general);
+        tokenList.push(tokencito);
       }
     }
-    else if(inputuser[i] == '+'
-    || inputuser[i] == '-'
-    || inputuser[i] == '*'
-    || inputuser[i] == '/'
-    || inputuser[i] == '_'
-    || inputuser[i] == '('
-    || inputuser[i] == ')'
-    || inputuser[i] == 'v'
-    || inputuser[i] == '^'){
-      sizearray++;
-    }
+    position++;
   }
-  sizeArray = sizearray;
 }
-
-int tokenizer::getSizeArray() { return sizeArray; }
+void tokenizer::obtenerLista(){
+    Token tokenxd = tokenList.front();
+    while(!tokenList.empty()){
+      cout << tokenxd.getValue() << endl;
+      tokenxd = tokenList.front();
+      tokenList.pop(); 
+    }
+}
+queue <Token> tokenizer::getList(){
+  return tokenList;
+}
