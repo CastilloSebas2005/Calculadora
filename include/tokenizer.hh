@@ -1,3 +1,6 @@
+#ifndef TOKENIZER_HH
+#define TOKENIZER_HH
+
 #include <string>
 #include <token.hh>
 #include <queue>
@@ -14,3 +17,5 @@ private:
   static bool isOperator(string stateOfToken, int positionOfToken); //estas funcionalidades son diferentes a la de token porque estás tienen que recibir el estado del operador
   static bool isNumber(string stateOfToken, int positionOfToken);
 };
+
+#endif
