@@ -1,14 +1,16 @@
 #include <string>
 #include <token.hh>
+#include <queue>
 
 class tokenizer {
 public:
   tokenizer(string inputuser);
-  Token tokenList();
-  int getSizeArray();
-
+  void obtenerLista();
+  queue <Token> getList();
 private:
-  int sizeArray; /*tamaño del arreglo de tokens, se calculara recorriendo el
-                    input sin contar sus espacios vacíos*/
+  string state;
   string inputUser;
+  queue <Token> tokenList;
+  static bool isOperator(string stateOfToken, int positionOfToken); //estas funcionalidades son diferentes a la de token porque estás tienen que recibir el estado del operador
+  static bool isNumber(string stateOfToken, int positionOfToken);
 };
