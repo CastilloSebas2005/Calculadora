@@ -5,10 +5,10 @@
 #include <string>
 using namespace std;
 class calcpostfija{
-    private: 
-        queue<Token> expresionPostfija;
-        stack<Token> resultadoExpresion;
     public:
         calcpostfija(queue<Token> expresion);
         double calcular();
+    private: 
+        queue<Token> expresionPostfija;
+        stack<Token> resultadoExpresion;
 };
