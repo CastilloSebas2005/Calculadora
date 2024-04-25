@@ -1,14 +1,25 @@
 //calculadora postfija//
+#ifndef CALPOSTFIJA_HH
+#define CALPOSTFIJA_HH
+
 #include <queue>
 #include<token.hh>
-#include<stack>
 #include <string>
 using namespace std;
-class calcpostfija{
+
+class calpostfija{
     public:
-        calcpostfija(queue<Token> expresion);
+        calpostfija(queue<Token *> cola);//falta incluirlo
         double calcular();
+        string Error() const;
+        bool valido() const;
+        double Resultadof() const;
     private: 
-        queue<Token> expresionPostfija;
-        stack<Token> resultadoExpresion;
+        queue<Token *> cola;
+        void Evaluarexp();
+        string error;
+        double resultadof;
+        bool valido;
+
 };
+#endif
