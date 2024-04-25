@@ -15,6 +15,7 @@ shunting_yard::shunting_yard(tokenizer tokenList): tokenList(tokenList){
         if(token.isNumber()){
             output_Queue.push(token);
             cout<<"Leyendo:"<<token.getNumber()<<endl;
+            //tokenQueue.pop();
         }
         else if(token.isOperator()){
 
