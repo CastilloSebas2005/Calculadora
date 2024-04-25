@@ -8,7 +8,7 @@
 using namespace std;
 //Al compilar con Cmake no me aparece en el build :C
 
-shunting_yard::shunting_yard(queue <Token> getlist()){
+shunting_yard::shunting_yard(tokenizer tokenlist): tokenList(tokenlist){
 
 
 }
