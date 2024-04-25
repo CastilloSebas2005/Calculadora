@@ -16,9 +16,11 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
         Token tokenPush(TokenType::TOKEN_TYPE_PARENTHESES, saveThing);
         tokenList.push(tokenPush);
         position++;
-      }
+      }else 
+      {
       position = addNumber(position);
       position = addOperator(position);
+    }
     }
   }
 
@@ -26,18 +28,32 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
 void tokenizer::obtenerLista() {
  while (!tokenList.empty()) {
     Token tokenxd = tokenList.front();
-    cout << tokenxd.getValue() << endl;
+    cout << tokenxd.getValue() <<" ";
     tokenList.pop();
   }
 }
 
 int tokenizer::addNumber(int positionD) {
   if(inputUser[positionD] >= '0' && inputUser[positionD] <= '9'){
+    bool decimal = false;
     double saveNumber = (inputUser[positionD] - '0');
+    double countOfDec = 1;
     state = TokenType::TOKEN_TYPE_NUMBER;
     positionD++;
     while ((positionD < inputUser.size() && inputUser[positionD] >= '0' && inputUser[positionD] <= '9') || inputUser[positionD] == '.') {
-      saveNumber = saveNumber*10 + inputUser[positionD]-'0';
+      if(inputUser[positionD] == '.'){
+        decimal = true;
+        
+      }
+      else{
+        if(decimal == true){
+          countOfDec = (countOfDec / 10);
+          saveNumber = saveNumber + (countOfDec * (inputUser[positionD] - '0') );
+        }else{
+          saveNumber = saveNumber*10 + (inputUser[positionD] - '0');
+        }
+      }
+      
       positionD++;
       
     }
@@ -87,7 +103,6 @@ int tokenizer::addOperator(int positionD){
   }
   if(isOperator == true){
     Token tokenPush(state, operatorSave);
-    cout << "guardado"<< endl;
     tokenList.push(tokenPush);
   }
   return positionD;
