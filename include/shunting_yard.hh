@@ -13,6 +13,7 @@ public:
   queue <Token> getOutputQueue();
 private:
   tokenizer tokenList;
+  int getPrecedence(Token tokenOperator);
   queue<Token> tokenQueue; //cola que recibe la lista de tokens del tokenizer
   queue<Token> output_Queue;
   stack<Token> operation_Stack;
