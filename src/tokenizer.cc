@@ -43,7 +43,6 @@ int tokenizer::addNumber(int positionD) {
     while ((positionD < inputUser.size() && inputUser[positionD] >= '0' && inputUser[positionD] <= '9') || inputUser[positionD] == '.') {
       if(inputUser[positionD] == '.'){
         decimal = true;
-        
       }
       else{
         if(decimal == true){
@@ -59,6 +58,7 @@ int tokenizer::addNumber(int positionD) {
     }
       string numberSave = to_string(saveNumber);
       Token tokenPush(state, numberSave);
+      cout << "Token: "<< tokenPush.getValue() << endl;
       tokenList.push(tokenPush);
   }else{
     positionD++;
