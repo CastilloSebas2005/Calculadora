@@ -1,5 +1,5 @@
 #ifndef TOKENIZER_HH
-#define TOKENIZER.HH
+#define TOKENIZER_HH
 
 #include <string>
 #include <token.hh>

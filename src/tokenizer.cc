@@ -8,7 +8,15 @@ using namespace std;
 
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   int position = 0;
+  
   while (position < inputuser.size()) {
+      if(inputUser[position] == '(' || inputUser[position] == ')'){
+        string saveThing;
+        saveThing += inputUser[position];
+        Token tokenPush(TokenType::TOKEN_TYPE_PARENTHESES, saveThing);
+        tokenList.push(tokenPush);
+        position++;
+      }
       position = addNumber(position);
       position = addOperator(position);
     }
