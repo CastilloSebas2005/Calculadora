@@ -6,9 +6,19 @@
 #include <shunting_yard.hh>
 
 using namespace std;
-//Al compilar con Cmake no me aparece en el build :C
-
-shunting_yard::shunting_yard(queue <Token> getlist()){
 
 
+shunting_yard::shunting_yard(tokenizer tokenList): tokenList(tokenList){
+    tokenQueue = tokenList.getList();
+    while(!tokenQueue.empty()){
+        Token token = tokenQueue.front();
+        if(token.isNumber()){
+            output_Queue.push(token);
+            cout<<"Leyendo:"<<token.getNumber()<<endl;
+            //tokenQueue.pop();
+        }
+        else if(token.isOperator()){
+
+        }
+    }
 }

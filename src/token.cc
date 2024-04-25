@@ -30,3 +30,12 @@ bool Token::isOperator() { // averigua si es operación
     return false;
   }
 }
+
+bool Token::isParentheses(){
+  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESES) {
+    return true;
+  } else {
+    return false;
+  }
+
+}
