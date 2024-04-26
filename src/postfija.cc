@@ -6,7 +6,7 @@
 #include<postfija.hh>
 using namespace std;
 
-calpostfija::calpostfija(shunting_yard output_Queue):output_Queue(output_Queue){//implementación de la calcu//
+calpostfija::calpostfija(shunting_yard output_queue):output_Queue(output_queue){//implementación de la calcu//
 
     cola=output_Queue.getOutputQueue();
 
