@@ -16,9 +16,10 @@ calpostfija::calpostfija(shunting_yard output_queue):output_Queue(output_queue){
 void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonces lo dejo en void//
     string suma="+", resta="-";
     string multi="*", div="/";
-    string pow="^", log="_",  sqrt="v";
+    string pow="^", loga="_",  sqrt="v";
     string parenizq="(", parendere=")";
     stack<double> pila;
+    valido=true;//asumimos que de momento la expresión es válida
     while (!cola.empty()&&valido==true)
     //mientras la cola no esté vacía hay que comprobar si se pueden realizar operaciones//
     {
@@ -72,10 +73,28 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                 
             }
             else if (token.getValue().compare(pow)==0)
+            //potencia
             {
                 resultado= powf64(ope1,ope2);
                 return;
             }
+            else if (token.getValue().compare(loga)==0)
+            //logaritmo
+            {
+                if (ope1==0)//por propiedades de logaritmo, no existe log de 0
+                {
+                    error="Error: no existe logaritmo de 0";
+                    valido=false;
+                    return;
+                }
+                else
+                {
+                    resultado=log10f64(ope1)/log10f64(ope2);// El cambio de base hace que el operador 2 sea la base
+                }
+                
+                
+            }
+            
             
             
             
