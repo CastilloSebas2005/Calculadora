@@ -12,12 +12,11 @@ using namespace std;
 class calpostfija{
     public:
         calpostfija(shunting_yard output_Queue);//falta incluirlo
-        double calcular();
-        string Error() const;
-        bool Valido() const;
-        double Resultadof() const;
+        string Error();
+        bool Valido();
+        double Resultadof();
+        void Ver_Result();
     private: 
-        stack<Token> exprostfija;
         queue<Token> cola;
         void Evaluarexp();
         string error;

@@ -6,19 +6,43 @@
 #include<postfija.hh>
 #include<math.h>
 #include<cmath>
+#include<iostream>
 using namespace std;
 
 calpostfija::calpostfija(shunting_yard output_queue):output_Queue(output_queue){//implementación de la calcu//
-
-    cola=output_Queue.getOutputQueue();
-
+    cola=output_Queue.getOutputQueue(),
+    resultadof=(0), 
+    valido=true,
+    error=("");
+    Evaluarexp();
+}
+double calpostfija::Resultadof(){
+    return resultadof;
+}
+bool calpostfija::Valido() {
+    return valido;
+}
+string calpostfija::Error() {
+    return error;
+}
+void calpostfija::Ver_Result(){
+    if (Valido()==0)
+    //si es 0 significa que válido quedó en true
+    {
+        cout<<"El resultado de la expresión es: "<<Resultadof()<< endl;
+    }
+    else
+    {
+        cout<<"Su expresión es inválida por este error: "<<Error()<<endl;
+    }
+    
+    
 }
 void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonces lo dejo en void//
     string suma="+", resta="-";
     string multi="*", div="/";
     string pote="^", loga="_",  raiz="v";
     stack<double> pila;
-    valido=true;//asumimos que de momento la expresión es válida
     while (!cola.empty()&&valido==true)
     //mientras la cola no esté vacía hay que comprobar si se pueden realizar operaciones//
     {
@@ -41,23 +65,22 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
             //encontramos el primer operando para la operación y lo sacamos//
             double ope1=pila.top(); pila.pop();
             //encontramos el segundo operando para la operación y lo sacamos//
-            double resultado=0;
             if (token.getValue().compare(suma)==0)
             //suma
             {
-                resultado=ope1+ope2;
+                resultadof=ope1+ope2;
                 return;
             }
             else if (token.getValue().compare(resta)==0)
             //resta
             {
-                resultado=ope1-ope2;
+                resultadof=ope1-ope2;
                 return;
             }
             else if (token.getValue().compare(multi)==0)
             //multiplicación
             {
-                resultado=ope1*ope2;//no importaría el orden pero igual...
+                resultadof=ope1*ope2;//no importaría el orden pero igual...
                 return;
             }
             else if (token.getValue().compare(div)==0)
@@ -74,7 +97,7 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
             else if (token.getValue().compare(pote)==0)
             //potencia
             {
-                resultado= powf64(ope1,ope2);
+                resultadof= powf64(ope1,ope2);
                 return;
             }
             else if (token.getValue().compare(loga)==0)
@@ -88,7 +111,7 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                 }
                 else
                 {
-                    resultado=log10f64(ope1)/log10f64(ope2);// El cambio de base hace que el operador 2 sea la base
+                    resultadof=log10f64(ope1)/log10f64(ope2);// El cambio de base hace que el operador 2 sea la base
                     return;
                 }
                 
@@ -107,39 +130,32 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                     if (ope1>2)
                     //esto sería para la raíz enésima
                     {
-                        resultado=powf64(ope2,1/ope1);
+                        resultadof=powf64(ope2,1/ope1);
                         return;
                     }
                     else if (ope1=2)
                     //lo hacemos con la funcion normal, en este caso sería porque ope1 debería ser 2 para raíz cuadrada
                     {
-                        resultado=sqrt(ope2);
+                        resultadof=sqrt(ope2);
                         return;
                     }
                     else if (ope1=1)
                     //raiz 1, es decir solo el número(no sé que tan necesario sea esta)
                     {
-                        resultado=ope2;
+                        resultadof=ope2;
                         return;
                     }
-                    
                 }
-                
-                 
-                
-                
             }
-            
-            
-            
-            
-            
-
-
-
-
-        }
-        
+            pila.push(resultadof);
+        }  
     }
-    
+    if (pila.size() != 1)//no se completaron las operaciones
+    {
+        error = "Error: sobran operandos";
+        valido = false;
+        return;
+    }
+    resultadof=pila.top();//Al final solo se mostrará si es válido independiente de lo que haya
+    Ver_Result();//Se enseña el resultado si fue válido
 }
