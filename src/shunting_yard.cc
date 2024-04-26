@@ -20,11 +20,6 @@ shunting_yard::shunting_yard(tokenizer tokenList): tokenList(tokenList){
             tokenQueue.pop();
         }
         else if(token.isOperator()){
-            while(!operation_Stack.empty() && getPrecedence(operation_Stack.top()) >= getPrecedence(token)){
-                output_Queue.push(operation_Stack.top());
-                cout<<"Leyendo:"<<token.getValue()<<endl;
-                operation_Stack.pop();
-            }
             operation_Stack.push(token);
             tokenQueue.pop();
         }
@@ -64,11 +59,17 @@ int shunting_yard::getPrecedence(Token tokenOperator){
     else if(tokenOp == "_"){
         return 2;
     }
-    else if(tokenOp == "*" || tokenOp == "/"){
+    else if(tokenOp == "*"){
         return 3;
     }
-    else if(tokenOp == "+"||tokenOp == "-"){
+    else if(tokenOp == "/"){
         return 4;
+    }
+    else if(tokenOp == "+"){
+        return 5;
+    }
+    else if(tokenOp == "-"){
+        return 6;
     }
     return 0;
 }
