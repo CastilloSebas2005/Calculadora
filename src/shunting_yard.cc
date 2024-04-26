@@ -22,6 +22,7 @@ shunting_yard::shunting_yard(tokenizer tokenlist): tokenList(tokenlist){
             }
             else if(token.isParenthesesLeft()){
                 operation_Stack.push(token);
+                
             }else if(token.isParenthesesRight()){
                 while(!operation_Stack.empty() && !operation_Stack.top().isParenthesesLeft()){
                     output_Queue.push(operation_Stack.top());
