@@ -8,59 +8,53 @@ using namespace std;
 
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   int position = 0;
-  
   while (position < inputuser.size()) {
-      if(inputUser[position] == '(' || inputUser[position] == ')'){
-        state = TokenType::TOKEN_TYPE_PARENTHESES;
-        string saveThing;
-        saveThing += inputUser[position];
-        Token tokenPush(state, saveThing);
-        tokenList.push(tokenPush);
-        position++;
-      }else 
-      {
-        position = addNumber(position);
-        position = addOperator(position);
-        if(state == TokenType::TOKEN_TYPE_UNKNOWN){
-          position++;
-        }
-      }
+    if (inputUser[position] == '(' || inputUser[position] == ')') {
+      state = TokenType::TOKEN_TYPE_PARENTHESES;
+      string saveThing;
+      saveThing += inputUser[position];
+      Token tokenPush(state, saveThing);
+      tokenList.push(tokenPush);
+      position++;
+    } else {
+      position = addNumber(position);
+      position = addOperator(position);
     }
   }
+}
 
 int tokenizer::addNumber(int positionD) {
-  if(inputUser[positionD] >= '0' && inputUser[positionD] <= '9'){
+  if (inputUser[positionD] >= '0' && inputUser[positionD] <= '9') {
     bool decimal = false;
     double saveNumber = (inputUser[positionD] - '0');
     double countOfDec = 1;
     state = TokenType::TOKEN_TYPE_NUMBER;
     positionD++;
-    while ((positionD < inputUser.size() && inputUser[positionD] >= '0' && inputUser[positionD] <= '9') || inputUser[positionD] == '.') {
-      if(inputUser[positionD] == '.'){
+    while ((positionD < inputUser.size() && inputUser[positionD] >= '0' &&
+            inputUser[positionD] <= '9') ||
+            inputUser[positionD] == '.') {
+      if (inputUser[positionD] == '.') {
         decimal = true;
-      }
-      else{
-        if(decimal == true){
+      } else {
+        if (decimal == true) {
           countOfDec = (countOfDec / 10);
-          saveNumber = saveNumber + (countOfDec * (inputUser[positionD] - '0') );
-        }else{
-          saveNumber = saveNumber*10 + (inputUser[positionD] - '0');
+          saveNumber = saveNumber + (countOfDec * (inputUser[positionD] - '0'));
+        } else {
+          saveNumber = saveNumber * 10 + (inputUser[positionD] - '0');
         }
       }
       positionD++;
     }
-      string numberSave = to_string(saveNumber);
-      Token tokenPush(state, numberSave);
-      tokenList.push(tokenPush);
-      
+    string numberSave = to_string(saveNumber);
+    Token tokenPush(state, numberSave);
+    tokenList.push(tokenPush);
+  } else {
+    state = TokenType::TOKEN_TYPE_UNKNOWN;
   }
-  else{
-      state = TokenType::TOKEN_TYPE_UNKNOWN;
-    }
   return positionD;
 }
 
-int tokenizer::addOperator(int positionD){
+int tokenizer::addOperator(int positionD) {
   string operatorSave;
   state = TokenType::TOKEN_TYPE_OPERATOR;
   bool isOperator = true;
@@ -106,4 +100,5 @@ int tokenizer::addOperator(int positionD){
   }
   return positionD;
 }
+
 queue<Token> tokenizer::getList() { return tokenList; }
