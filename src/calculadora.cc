@@ -1,7 +1,7 @@
 #include <iostream>
 #include <token.hh>
 #include <tokenizer.hh>
-
+#include <shunting_yard.hh>
 using namespace std;
 
 int main() {
@@ -13,6 +13,5 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer test("5++++++++++");
   return 0;
 }

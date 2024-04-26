@@ -9,19 +9,23 @@ using namespace std;
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   int position = 0;
   while (position < inputuser.size()) {
-    if (inputUser[position] == '(' || inputUser[position] == ')') {
-      state = TokenType::TOKEN_TYPE_PARENTHESES;
-      string saveThing;
-      saveThing += inputUser[position];
-      Token tokenPush(state, saveThing);
-      tokenList.push(tokenPush);
-      position++;
-    } else {
-      position = addNumber(position);
-      position = addOperator(position);
+      if(inputUser[position] == '(' || inputUser[position] == ')'){
+        state = TokenType::TOKEN_TYPE_PARENTHESES;
+        string saveThing;
+        saveThing += inputUser[position];
+        Token tokenPush(state, saveThing);
+        tokenList.push(tokenPush);
+        position++;
+      }else 
+      {
+        position = addNumber(position);
+        position = addOperator(position);
+        if(state == TokenType::TOKEN_TYPE_UNKNOWN){
+          position++;
+        }
+      }
     }
   }
-}
 
 int tokenizer::addNumber(int positionD) {
   if (inputUser[positionD] >= '0' && inputUser[positionD] <= '9') {
@@ -45,12 +49,14 @@ int tokenizer::addNumber(int positionD) {
       }
       positionD++;
     }
-    string numberSave = to_string(saveNumber);
-    Token tokenPush(state, numberSave);
-    tokenList.push(tokenPush);
-  } else {
-    state = TokenType::TOKEN_TYPE_UNKNOWN;
+      string numberSave = to_string(saveNumber);
+      Token tokenPush(state, numberSave);
+      tokenList.push(tokenPush);
+      
   }
+  else{
+      state = TokenType::TOKEN_TYPE_UNKNOWN;
+    }
   return positionD;
 }
 
@@ -90,7 +96,6 @@ int tokenizer::addOperator(int positionD) {
     positionD++;
     break;
   default:
-    state = TokenType::TOKEN_TYPE_UNKNOWN;
     isOperator = false;
     break;
   }
@@ -102,3 +107,11 @@ int tokenizer::addOperator(int positionD) {
 }
 
 queue<Token> tokenizer::getList() { return tokenList; }
+
+void tokenizer::seeList(){
+  while(!tokenList.empty()){
+    Token see = tokenList.front();
+    cout << see.getValue();
+    tokenList.pop();
+  }
+}
