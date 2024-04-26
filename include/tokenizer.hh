@@ -8,7 +8,6 @@
 class tokenizer {
 public:
   tokenizer(string inputuser);
-  void obtenerLista();
   queue <Token> getList();
 private:
   TokenType state;

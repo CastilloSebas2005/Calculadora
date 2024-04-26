@@ -11,27 +11,22 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   
   while (position < inputuser.size()) {
       if(inputUser[position] == '(' || inputUser[position] == ')'){
+        state = TokenType::TOKEN_TYPE_PARENTHESES;
         string saveThing;
         saveThing += inputUser[position];
-        Token tokenPush(TokenType::TOKEN_TYPE_PARENTHESES, saveThing);
+        Token tokenPush(state, saveThing);
         tokenList.push(tokenPush);
         position++;
       }else 
       {
-      position = addNumber(position);
-      position = addOperator(position);
-    }
+        position = addNumber(position);
+        position = addOperator(position);
+        if(state == TokenType::TOKEN_TYPE_UNKNOWN){
+          position++;
+        }
+      }
     }
   }
-
-
-void tokenizer::obtenerLista() {
- while (!tokenList.empty()) {
-    Token tokenxd = tokenList.front();
-    cout << tokenxd.getValue() <<" ";
-    tokenList.pop();
-  }
-}
 
 int tokenizer::addNumber(int positionD) {
   if(inputUser[positionD] >= '0' && inputUser[positionD] <= '9'){
@@ -52,17 +47,16 @@ int tokenizer::addNumber(int positionD) {
           saveNumber = saveNumber*10 + (inputUser[positionD] - '0');
         }
       }
-      
       positionD++;
-      
     }
       string numberSave = to_string(saveNumber);
       Token tokenPush(state, numberSave);
-      cout << "Token: "<< tokenPush.getValue() << endl;
       tokenList.push(tokenPush);
-  }else{
-    positionD++;
+      
   }
+  else{
+      state = TokenType::TOKEN_TYPE_UNKNOWN;
+    }
   return positionD;
 }
 
@@ -97,7 +91,12 @@ int tokenizer::addOperator(int positionD){
     operatorSave = "_";
     positionD++;
     break;
+  case '^':
+    operatorSave = "^";
+    positionD++;
+    break;
   default:
+    state = TokenType::TOKEN_TYPE_UNKNOWN;
     isOperator = false;
     break;
   }

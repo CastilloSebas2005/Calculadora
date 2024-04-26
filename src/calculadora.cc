@@ -13,7 +13,5 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer prueba("45.89+89      - 98 *(45687789)");
-  prueba.obtenerLista();
   return 0;
 }

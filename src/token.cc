@@ -31,11 +31,18 @@ bool Token::isOperator() { // averigua si es operación
   }
 }
 
-bool Token::isParentheses(){
-  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESES) {
+bool Token::isParenthesesRight(){
+  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESES && value == ")") {
     return true;
   } else {
     return false;
   }
 
+}
+bool Token::isParenthesesLeft(){
+  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESES && value == "(") {
+    return true;
+  } else {
+    return false;
+  }
 }
