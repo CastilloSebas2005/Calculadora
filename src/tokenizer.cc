@@ -21,7 +21,7 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
       {
         position = addNumber(position);
         position = addOperator(position);
-        if(state == TokenType::TOKEN_TYPE_UNKNOWN){
+        if(inputUser[position] == ' '){
           position++;
         }
       }
@@ -53,10 +53,8 @@ int tokenizer::addNumber(int positionD) {
       Token tokenPush(state, numberSave);
       tokenList.push(tokenPush);
       
+      
   }
-  else{
-      state = TokenType::TOKEN_TYPE_UNKNOWN;
-    }
   return positionD;
 }
 
@@ -96,7 +94,6 @@ int tokenizer::addOperator(int positionD){
     positionD++;
     break;
   default:
-    state = TokenType::TOKEN_TYPE_UNKNOWN;
     isOperator = false;
     break;
   }
@@ -107,3 +104,11 @@ int tokenizer::addOperator(int positionD){
   return positionD;
 }
 queue<Token> tokenizer::getList() { return tokenList; }
+
+void tokenizer::seeList(){
+  while(!tokenList.empty()){
+    Token see = tokenList.front();
+    cout << see.getValue();
+    tokenList.pop();
+  }
+}
