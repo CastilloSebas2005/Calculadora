@@ -18,11 +18,13 @@ shunting_yard::shunting_yard(tokenizer tokenList): tokenList(tokenList){
             tokenQueue.pop();
         }
         else if(token.isOperator()){
-        /*Mientras que el operador a ingresar sea de mayor precedencia, 
-            pushee los operadores que estaban en el stack a la cola de salida
-        */
-
-       // al final pushee ese operador actual al stack
+            while(!operation_Stack.empty() && getPrecedence(operation_Stack.top()) >= getPrecedence(token)){
+                output_Queue.push(operation_Stack.top());
+                operation_Stack.pop();
+            }
+            operation_Stack.push(token);
+        }
+        
 
        /*Si es un bracket izquierdo, anadalo al stack
        */
@@ -37,16 +39,26 @@ shunting_yard::shunting_yard(tokenizer tokenList): tokenList(tokenList){
      //Quite el bracket izquierdo del stack
      
      //Mientras hayan operadores en el stack, anadalos a la pila
-        }
+        
     }
 }
 
-//Terminar y ver como se hara la precedencia
+
 int shunting_yard::getPrecedence(Token tokenOperator){
     string tokenOp = tokenOperator.getValue();
-    if(tokenOp == "+"){
+    if(tokenOp == "^" ){
         return 1;
     }
+    else if(tokenOp == "_"){
+        return 2;
+    }
+    else if(tokenOp == "*" || tokenOp == "/"){
+        return 3;
+    }
+    else if(tokenOp == "+"||tokenOp == "-"){
+        return 4;
+    }
+    return 0;
 }
 
 queue <Token>shunting_yard::getOutputQueue(){

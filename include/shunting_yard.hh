@@ -17,6 +17,7 @@ private:
   queue<Token> tokenQueue; //cola que recibe la lista de tokens del tokenizer
   queue<Token> output_Queue;
   stack<Token> operation_Stack;
+  int getPrecedence(Token tokenOperator);
 };
 
 #endif
