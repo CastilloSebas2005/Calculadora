@@ -16,7 +16,7 @@ calpostfija::calpostfija(shunting_yard output_queue):output_Queue(output_queue){
 void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonces lo dejo en void//
     string suma="+", resta="-";
     string multi="*", div="/";
-    string pow="^", loga="_",  sqrt="v";
+    string pote="^", loga="_",  raiz="v";
     string parenizq="(", parendere=")";
     stack<double> pila;
     valido=true;//asumimos que de momento la expresión es válida
@@ -72,7 +72,7 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                 }
                 
             }
-            else if (token.getValue().compare(pow)==0)
+            else if (token.getValue().compare(pote)==0)
             //potencia
             {
                 resultado= powf64(ope1,ope2);
@@ -90,6 +90,22 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                 else
                 {
                     resultado=log10f64(ope1)/log10f64(ope2);// El cambio de base hace que el operador 2 sea la base
+                }
+                
+                
+            }
+            else if (token.getValue().compare(raiz)==0)
+            //raiz, creo que es necesario especificar el operando 2 cuando es cuadrada...
+            {
+                if (ope1>2)//esto sería para la raíz enésima
+                {
+                    resultado=powf64(ope2,1/ope1);
+                    return;
+                }
+                else//lo hacemos con la funcion normal
+                {
+                    resultado=sqrt(ope2);
+                    return;
                 }
                 
                 
