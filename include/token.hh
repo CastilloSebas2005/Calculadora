@@ -22,7 +22,8 @@ public:
   double getNumber();
   bool isNumber();
   bool isOperator();
-  bool isParentheses();
+  bool isParenthesesRight();
+  bool isParenthesesLeft();
 
 private:
   TokenType tokenType;
