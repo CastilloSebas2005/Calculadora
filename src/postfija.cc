@@ -17,7 +17,6 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
     string suma="+", resta="-";
     string multi="*", div="/";
     string pote="^", loga="_",  raiz="v";
-    string parenizq="(", parendere=")";
     stack<double> pila;
     valido=true;//asumimos que de momento la expresión es válida
     while (!cola.empty()&&valido==true)
@@ -90,6 +89,7 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                 else
                 {
                     resultado=log10f64(ope1)/log10f64(ope2);// El cambio de base hace que el operador 2 sea la base
+                    return;
                 }
                 
                 
@@ -97,16 +97,35 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
             else if (token.getValue().compare(raiz)==0)
             //raiz, creo que es necesario especificar el operando 2 cuando es cuadrada...
             {
-                if (ope1>2)//esto sería para la raíz enésima
+                if (ope2<0)//no puede ser raíz negativa
                 {
-                    resultado=powf64(ope2,1/ope1);
+                    error="Error: no trabajamos con números imaginarios...";
+                    valido=false;
                     return;
                 }
-                else//lo hacemos con la funcion normal
-                {
-                    resultado=sqrt(ope2);
-                    return;
+                else{
+                    if (ope1>2)
+                    //esto sería para la raíz enésima
+                    {
+                        resultado=powf64(ope2,1/ope1);
+                        return;
+                    }
+                    else if (ope1=2)
+                    //lo hacemos con la funcion normal, en este caso sería porque ope1 debería ser 2 para raíz cuadrada
+                    {
+                        resultado=sqrt(ope2);
+                        return;
+                    }
+                    else if (ope1=1)
+                    //raiz 1, es decir solo el número(no sé que tan necesario sea esta)
+                    {
+                        resultado=ope2;
+                        return;
+                    }
+                    
                 }
+                
+                 
                 
                 
             }
