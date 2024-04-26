@@ -11,9 +11,9 @@ class shunting_yard {
 public:
   shunting_yard(tokenizer tokenlist);
   queue <Token> getOutputQueue();
+  void obtenerQueue();
 private:
   tokenizer tokenList;
-  int getPrecedence(Token tokenOperator);
   queue<Token> tokenQueue; //cola que recibe la lista de tokens del tokenizer
   queue<Token> output_Queue;
   stack<Token> operation_Stack;

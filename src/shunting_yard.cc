@@ -9,7 +9,9 @@ using namespace std;
 
 
 shunting_yard::shunting_yard(tokenizer tokenList): tokenList(tokenList){
+    //Declaracion de tokenQueue como la cola de tokenizer
     tokenQueue = tokenList.getList();
+
     while(!tokenQueue.empty()){
         Token token = tokenQueue.front();
         if(token.isNumber()){
@@ -20,29 +22,39 @@ shunting_yard::shunting_yard(tokenizer tokenList): tokenList(tokenList){
         else if(token.isOperator()){
             while(!operation_Stack.empty() && getPrecedence(operation_Stack.top()) >= getPrecedence(token)){
                 output_Queue.push(operation_Stack.top());
+                cout<<"Leyendo:"<<token.getValue()<<endl;
                 operation_Stack.pop();
             }
             operation_Stack.push(token);
+            tokenQueue.pop();
         }
-        
-
-       /*Si es un bracket izquierdo, anadalo al stack
-       */
-
-      //Si es un bracket derecho
-
-      /*
-      Mientras que no haya un bracket izquierdo en el stack
-        Ponga elementos del stack a la cola de salida
-      */
-
-     //Quite el bracket izquierdo del stack
-     
-     //Mientras hayan operadores en el stack, anadalos a la pila
-        
+        else if(token.isParenthesesLeft()){
+            operation_Stack.push(token);
+            tokenQueue.pop();
+        }
+        else if(token.isParenthesesRight()){
+            while(!operation_Stack.top().isParenthesesLeft()){
+                output_Queue.push(operation_Stack.top());
+                cout<<"Leyendo:"<<token.getValue()<<endl;
+                operation_Stack.pop();
+            }
+            operation_Stack.pop();
+        }
+    }
+    while(!operation_Stack.empty()){
+        output_Queue.push(operation_Stack.top());
+        operation_Stack.pop();
     }
 }
 
+void shunting_yard::obtenerQueue(){
+    while(!output_Queue.empty()){
+        Token token = output_Queue.front();
+        cout<<token.getValue()<<", ";
+        output_Queue.pop();
+    }
+    cout<<endl;
+}
 
 int shunting_yard::getPrecedence(Token tokenOperator){
     string tokenOp = tokenOperator.getValue();
@@ -64,3 +76,4 @@ int shunting_yard::getPrecedence(Token tokenOperator){
 queue <Token>shunting_yard::getOutputQueue(){
     return output_Queue;
 }
+
