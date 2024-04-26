@@ -13,7 +13,7 @@ public:
   queue <Token> getOutputQueue();
   void obtenerQueue();
 private:
-  bool asociativeLeft(Token tokenOperador);
+  bool asociativeLeft(Token tokenOperator);
   tokenizer tokenList;
   queue<Token> tokenQueue; //cola que recibe la lista de tokens del tokenizer
   queue<Token> output_Queue;

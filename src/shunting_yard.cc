@@ -78,11 +78,11 @@ void shunting_yard::processOperators(Token firstOperation){
     }
 }
 
-bool shunting_yard::asociativeLeft(Token tokenOperador){
-    if(tokenOperador.getValue() == "+"
-    || tokenOperador.getValue() == "-"
-    || tokenOperador.getValue() == "*"
-    || tokenOperador.getValue() == "/"){
+bool shunting_yard::asociativeLeft(Token tokenOperator){
+    if(tokenOperator.getValue() == "+"
+    || tokenOperator.getValue() == "-"
+    || tokenOperator.getValue() == "*"
+    || tokenOperator.getValue() == "/"){
         return true;
     }else{
         return false;
