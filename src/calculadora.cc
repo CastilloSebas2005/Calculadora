@@ -13,7 +13,7 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer prueba("3+4*2/(1-5))^2^3(6/(8*(5+9)))2v4");
+  tokenizer prueba("3+4*(2/(1-5))^2^3.9(6/(8*(5+9)))2.67v4");
   shunting_yard prueba2(prueba);
   prueba2.obtenerQueue();
   return 0;

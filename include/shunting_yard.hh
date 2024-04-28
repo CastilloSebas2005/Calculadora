@@ -21,7 +21,7 @@ private:
   queue<Token> output_Queue;
   stack<Token> operation_Stack;
   int getPrecedence(Token tokenOperator);
-  void processOperators(Token firstOperation);
+  void processOperators(Token tokenOperator);
 };
 
 #endif

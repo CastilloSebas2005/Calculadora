@@ -10,6 +10,8 @@ using namespace std;
 shunting_yard::shunting_yard(tokenizer tokenList) : tokenList(tokenList) {
   // Declaracion de tokenQueue como la cola de tokenizer
   tokenQueue = tokenList.getList();
+  //si la funcion parenthesesError devuelve un 1, significa que hay concordancia en los parentesis o del todo no hay
+  //De esta manera reealizaria el shunting yard normalmente
   if (parenthesesError(tokenQueue) == 1) {
     // El shunting yard se hara mientras haya tokens que leer del tokenQueue
     while (!tokenQueue.empty()) {
@@ -65,9 +67,14 @@ shunting_yard::shunting_yard(tokenizer tokenList) : tokenList(tokenList) {
     }
 
   } 
+  //si la funcion parenthesesError devuelve un 2, significa que hay no concordancia en los parentesis
+  //En este caso, hay mas parentesis izquierdos que derechos
   else if(parenthesesError(tokenQueue) == 2) {
+    output_Queue;
     cout<<"Error, parentesis derecho insuficiente"<<endl;
   }
+  //si la funcion parenthesesError devuelve un 3, significa que hay no concordancia en los parentesis
+  //En este caso, hay mas parentesis derechos que izquierdos
   else if(parenthesesError(tokenQueue) == 3) {
     cout<<"Error, parentesis izquierdo insuficiente"<<endl;
   }
@@ -96,12 +103,12 @@ int shunting_yard::getPrecedence(Token tokenOperator) {
   return 0;
 }
 // metodo que hace el caso de si el token es un operador
-void shunting_yard::processOperators(Token firstOperation) {
+void shunting_yard::processOperators(Token tokenOperator) {
   while (
       !operation_Stack.empty() &&
       (!operation_Stack.top().isParenthesesLeft()) &&
-      (getPrecedence(operation_Stack.top()) >= getPrecedence(firstOperation)) &&
-      asociativeLeft(firstOperation)) {
+      (getPrecedence(operation_Stack.top()) >= getPrecedence(tokenOperator)) &&
+      asociativeLeft(tokenOperator)) {
     output_Queue.push(operation_Stack.top());
     operation_Stack.pop();
   }
@@ -117,6 +124,8 @@ bool shunting_yard::asociativeLeft(Token tokenOperator) {
   }
 }
 
+//Funcion que revisa si hay o no concordancia con los parentesis dados por el tokenizer, dependiendo del caso
+//devuelve un entero distinto
 int shunting_yard::parenthesesError(queue<Token> tokenTemp) {
   int contadorLeft = 0, contadorRight = 0;
   while (!tokenTemp.empty()) {
