@@ -9,11 +9,12 @@
 
 class shunting_yard {
 public:
-  shunting_yard(tokenizer tokenlist);
+  shunting_yard(tokenizer tokenList);
   queue<Token> getOutputQueue();
   void obtenerQueue();
 
 private:
+  int parenthesesError(queue<Token> tokenTemp);
   bool asociativeLeft(Token tokenOperator);
   tokenizer tokenList;
   queue<Token> tokenQueue; // cola que recibe la lista de tokens del tokenizer

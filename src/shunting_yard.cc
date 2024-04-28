@@ -10,56 +10,66 @@ using namespace std;
 shunting_yard::shunting_yard(tokenizer tokenList) : tokenList(tokenList) {
   // Declaracion de tokenQueue como la cola de tokenizer
   tokenQueue = tokenList.getList();
-  // El shunting yard se hara mientras haya tokens que leer del tokenQueue
-  while (!tokenQueue.empty()) {
-    Token token = tokenQueue.front();
-    // Si el token es un numero, se va a la cola de salida
-    if (token.isNumber()) {
-      output_Queue.push(token);
-      cout << "Leyendo:" << token.getNumber() << endl;
-    }
-    // si el token es un operador, se hace el siguiente caso
-    if (token.isOperator()) {
-      /*Mientras el stack de operadores no este vacio, el principio del stack no
-      sea un parentesis izq y el token del stack de operadores tenga mayor
-      precedencia que la del token de la lista de tokens o sean de misma
-      precedencia, entonces los operadores que estaban en el stack de
-      operadores, se van a pasar a la cola de salida, por ultimo el token con
-      menor precedencia se pasara al stack de operaciones*/
-      processOperators(token);
-      operation_Stack.push(token);
-    }
-    // si el token es un parentesis izquierdo, se pasara al stack de operaciones
-    if (token.isParenthesesLeft()) {
-      operation_Stack.push(token);
-    }
-    // si el token es un parentesis derecho, se hara el siguiente caso
-    if (token.isParenthesesRight()) {
-      /*Mientras el stack de operaciones no este vacio y el primer operador del
-      mismo no sea un parentesis izquierdo,anada a la cola de salida, el primer
-      operador del stack de operaciones
-      */
-      while (!operation_Stack.empty() &&
-             !operation_Stack.top().isParenthesesLeft()) {
-        output_Queue.push(operation_Stack.top());
-        operation_Stack.pop();
+  if (parenthesesError(tokenQueue) == 1) {
+    // El shunting yard se hara mientras haya tokens que leer del tokenQueue
+    while (!tokenQueue.empty()) {
+      Token token = tokenQueue.front();
+      // Si el token es un numero, se va a la cola de salida
+      if (token.isNumber()) {
+        output_Queue.push(token);
+        cout << "Leyendo:" << token.getNumber() << endl;
       }
-      // si el operador es un parentesis izquierdo, se elimina del stack de
+      // si el token es un operador, se hace el siguiente caso
+      if (token.isOperator()) {
+        /*Mientras el stack de operadores no este vacio, el principio del stack
+        no sea un parentesis izq y el token del stack de operadores tenga mayor
+        precedencia que la del token de la lista de tokens o sean de misma
+        precedencia, entonces los operadores que estaban en el stack de
+        operadores, se van a pasar a la cola de salida, por ultimo el token con
+        menor precedencia se pasara al stack de operaciones*/
+        processOperators(token);
+        operation_Stack.push(token);
+      }
+      // si el token es un parentesis izquierdo, se pasara al stack de
       // operaciones
-      if (!operation_Stack.empty() &&
-          operation_Stack.top().isParenthesesLeft()) {
-        operation_Stack.pop();
+      if (token.isParenthesesLeft()) {
+        operation_Stack.push(token);
       }
+      // si el token es un parentesis derecho, se hara el siguiente caso
+      if (token.isParenthesesRight()) {
+        /*Mientras el stack de operaciones no este vacio y el primer operador
+        del mismo no sea un parentesis izquierdo,anada a la cola de salida, el
+        primer operador del stack de operaciones
+        */
+        while (!operation_Stack.empty() &&
+               !operation_Stack.top().isParenthesesLeft()) {
+          output_Queue.push(operation_Stack.top());
+          operation_Stack.pop();
+        }
+        // si el operador es un parentesis izquierdo, se elimina del stack de
+        // operaciones
+        if (!operation_Stack.empty() &&
+            operation_Stack.top().isParenthesesLeft()) {
+          operation_Stack.pop();
+        }
+      }
+      tokenQueue.pop();
     }
-    tokenQueue.pop();
+    /*Aparte, si quedan operadores en el stack de operaciones y el primer
+    operador no es un parentesis izquierdo, el operador que este de primero en
+    el stack, se anadira en el token de salida*/
+    while (!operation_Stack.empty() &&
+           !operation_Stack.top().isParenthesesLeft()) {
+      output_Queue.push(operation_Stack.top());
+      operation_Stack.pop();
+    }
+
+  } 
+  else if(parenthesesError(tokenQueue) == 2) {
+    cout<<"Error, parentesis derecho insuficiente"<<endl;
   }
-  /*Aparte, si quedan operadores en el stack de operaciones y el primer operador
-  no es un parentesis izquierdo, el operador que este de primero en el stack, se
-  anadira en el token de salida*/
-  while (!operation_Stack.empty() &&
-         !operation_Stack.top().isParenthesesLeft()) {
-    output_Queue.push(operation_Stack.top());
-    operation_Stack.pop();
+  else if(parenthesesError(tokenQueue) == 3) {
+    cout<<"Error, parentesis izquierdo insuficiente"<<endl;
   }
 }
 
@@ -76,7 +86,7 @@ void shunting_yard::obtenerQueue() {
 // Metodo que le da la precedencia a los operadores
 int shunting_yard::getPrecedence(Token tokenOperator) {
   string tokenOp = tokenOperator.getValue();
-  if (tokenOp == "^" || tokenOp == "_" || tokenOp == "V") {
+  if (tokenOp == "^" || tokenOp == "_" || tokenOp == "v") {
     return 3;
   } else if (tokenOp == "*" || tokenOp == "/") {
     return 2;
@@ -107,4 +117,28 @@ bool shunting_yard::asociativeLeft(Token tokenOperator) {
   }
 }
 
+int shunting_yard::parenthesesError(queue<Token> tokenTemp) {
+  int contadorLeft = 0, contadorRight = 0;
+  while (!tokenTemp.empty()) {
+    Token tokenValue = tokenTemp.front();
+    if (tokenValue.isParenthesesLeft()) {
+      contadorLeft++;
+    } else if (tokenValue.isParenthesesRight()) {
+      contadorRight++;
+    }
+    tokenTemp.pop();
+  }
+  if (contadorLeft == contadorRight) {
+    return 1;
+  } else if (contadorLeft > contadorRight) {
+    return 2;
+  } else if (contadorLeft < contadorRight) {
+    return 3;
+  } else {
+    return 0;
+  }
+}
+
+// Metodo que devuelve la cola hacia la clase que se necesite, en este caso
+// hacia la clase calc post fija
 queue<Token> shunting_yard::getOutputQueue() { return output_Queue; }
