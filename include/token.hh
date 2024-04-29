@@ -10,7 +10,7 @@ enum class TokenType {
   TOKEN_TYPE_UNKNOWN,
   TOKEN_TYPE_NUMBER,
   TOKEN_TYPE_OPERATOR,
-  TOKEN_TYPE_PARENTHESES,
+  TOKEN_TYPE_PARENTHESIS,
   TOKEN_TYPE_END
 };
 
@@ -22,8 +22,8 @@ public:
   double getNumber();
   bool isNumber();
   bool isOperator();
-  bool isParenthesesRight();
-  bool isParenthesesLeft();
+  bool isParenthesisRight();
+  bool isParenthesisLeft();
 
 private:
   TokenType tokenType;

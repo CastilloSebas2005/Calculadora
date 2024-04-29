@@ -31,16 +31,16 @@ bool Token::isOperator() { // averigua si es operación
   }
 }
 
-bool Token::isParenthesesRight(){
-  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESES && value == ")") {
+bool Token::isParenthesisRight(){
+  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && value == ")") {
     return true;
   } else {
     return false;
   }
 
 }
-bool Token::isParenthesesLeft(){
-  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESES && value == "(") {
+bool Token::isParenthesisLeft(){
+  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && value == "(") {
     return true;
   } else {
     return false;

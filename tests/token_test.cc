@@ -10,10 +10,10 @@ TEST(TokenTest, TokenNumber) {
 }
 
 TEST(TokenTest, isParenthesesLeft) {
-  Token token(TokenType::TOKEN_TYPE_PARENTHESES, "(");
+  Token token(TokenType::TOKEN_TYPE_PARENTHESIS, "(");
   EXPECT_EQ(token.getValue(), "(");
   EXPECT_FALSE(token.isNumber());
   EXPECT_FALSE(token.isOperator());
-  EXPECT_TRUE(token.isParenthesesLeft());
-  EXPECT_FALSE(token.isParenthesesRight());
+  EXPECT_TRUE(token.isParenthesisLeft());
+  EXPECT_FALSE(token.isParenthesisRight());
 }

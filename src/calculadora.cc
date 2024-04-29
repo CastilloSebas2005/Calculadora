@@ -12,6 +12,6 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer pruebita("(1-2)^4*(4*(5/((5-3)^2)))");
+  tokenizer pruebita("5+2..V4");
   return 0;
 }
