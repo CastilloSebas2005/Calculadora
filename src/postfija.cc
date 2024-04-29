@@ -69,19 +69,19 @@ void calpostfija::Evaluarexp(){
             //suma
             {
                 resultadof=ope1+ope2;
-                return;
+        
             }
             else if (token.getValue()==resta)
             //resta
             {
                 resultadof=ope1-ope2;
-                return;
+                
             }
             else if (token.getValue()==multi)
             //multiplicación
             {
                 resultadof=ope1*ope2;//no importaría el orden pero igual...
-                return;
+                
             }
             else if (token.getValue()==div)
             {
@@ -98,7 +98,7 @@ void calpostfija::Evaluarexp(){
             //potencia
             {
                 resultadof= powf64(ope1,ope2);
-                return;
+                
             }
             else if (token.getValue()==loga)
             //logaritmo
@@ -112,7 +112,7 @@ void calpostfija::Evaluarexp(){
                 else
                 {
                     resultadof=log10f64(ope1)/log10f64(ope2);// El cambio de base hace que el operador 2 sea la base
-                    return;
+                    
                 }
                 
                 
@@ -131,19 +131,19 @@ void calpostfija::Evaluarexp(){
                     //esto sería para la raíz enésima
                     {
                         resultadof=powf64(ope2,1/ope1);
-                        return;
+                        
                     }
                     else if (ope1=2)
                     //lo hacemos con la funcion normal, en este caso sería porque ope1 debería ser 2 para raíz cuadrada
                     {
                         resultadof=sqrt(ope2);
-                        return;
+                        
                     }
                     else if (ope1=1)
                     //raiz 1, es decir solo el número(no sé que tan necesario sea esta)
                     {
                         resultadof=ope2;
-                        return;
+                        
                     }
                 }
             }
