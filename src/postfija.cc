@@ -4,7 +4,6 @@
 #include<token.hh>
 #include <string>
 #include<postfija.hh>
-#include<math.h>
 #include<cmath>
 #include<iostream>
 using namespace std;
