@@ -38,12 +38,12 @@ void calpostfija::Ver_Result(){
     
     
 }
-void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonces lo dejo en void//
+void calpostfija::Evaluarexp(){
     string suma="+", resta="-";
     string multi="*", div="/";
     string pote="^", loga="_",  raiz="v";
     stack<double> pila;
-    while (!cola.empty()&&valido==true)
+    while (!cola.empty()&&valido)//quité el ==true...
     //mientras la cola no esté vacía hay que comprobar si se pueden realizar operaciones//
     {
         Token token= cola.front();
@@ -65,25 +65,25 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
             //encontramos el primer operando para la operación y lo sacamos//
             double ope1=pila.top(); pila.pop();
             //encontramos el segundo operando para la operación y lo sacamos//
-            if (token.getValue().compare(suma)==0)
+            if (token.getValue()==suma)//se puede comparar directamente si son strings...
             //suma
             {
                 resultadof=ope1+ope2;
                 return;
             }
-            else if (token.getValue().compare(resta)==0)
+            else if (token.getValue()==resta)
             //resta
             {
                 resultadof=ope1-ope2;
                 return;
             }
-            else if (token.getValue().compare(multi)==0)
+            else if (token.getValue()==multi)
             //multiplicación
             {
                 resultadof=ope1*ope2;//no importaría el orden pero igual...
                 return;
             }
-            else if (token.getValue().compare(div)==0)
+            else if (token.getValue()==div)
             {
                 if (ope2==0)
                 //no se puede dividir entre 0
@@ -94,13 +94,13 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                 }
                 
             }
-            else if (token.getValue().compare(pote)==0)
+            else if (token.getValue()==pote)
             //potencia
             {
                 resultadof= powf64(ope1,ope2);
                 return;
             }
-            else if (token.getValue().compare(loga)==0)
+            else if (token.getValue()==loga)
             //logaritmo
             {
                 if (ope1==0)//por propiedades de logaritmo, no existe log de 0
@@ -117,7 +117,7 @@ void calpostfija::Evaluarexp(){//todavía no sé si devuelve el resultado entonc
                 
                 
             }
-            else if (token.getValue().compare(raiz)==0)
+            else if (token.getValue()==raiz)
             //raiz, creo que es necesario especificar el operando 2 cuando es cuadrada...
             {
                 if (ope2<0)//no puede ser raíz negativa
