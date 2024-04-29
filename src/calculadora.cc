@@ -1,7 +1,6 @@
 #include <iostream>
 #include <token.hh>
 #include <tokenizer.hh>
-#include <shunting_yard.hh>
 using namespace std;
 
 int main() {
@@ -14,7 +13,5 @@ int main() {
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
   tokenizer pruebita("(1-2)^4*(4*(5/((5-3)^2)))");
-  shunting_yard prueba(pruebita);
-  prueba.obtenerQueue();
   return 0;
 }
