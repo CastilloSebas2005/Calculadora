@@ -28,7 +28,7 @@ tokenizer_test.cc
 shunting_yard_test.cc
 ${Calculadora_SOURCE_DIR}/src/token.cc
 ${Calculadora_SOURCE_DIR}/src/tokenizer.cc
-${Calculadora_SOURCE_DIR}/src/shunting_yard_test.cc
+${Calculadora_SOURCE_DIR}/src/shunting_yard.cc
 )
 
 # Además, se añaden los archivos de encabezados

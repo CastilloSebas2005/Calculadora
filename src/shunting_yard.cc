@@ -10,73 +10,70 @@ using namespace std;
 shunting_yard::shunting_yard(tokenizer tokenList) : tokenList(tokenList) {
   // Declaracion de tokenQueue como la cola de tokenizer
   tokenQueue = tokenList.getList();
-  //si la funcion parenthesesError devuelve un 1, significa que hay concordancia en los parentesis o del todo no hay
-  //De esta manera reealizaria el shunting yard normalmente
-  if (parenthesesError(tokenQueue) == 1) {
-    // El shunting yard se hara mientras haya tokens que leer del tokenQueue
-    while (!tokenQueue.empty()) {
-      Token token = tokenQueue.front();
-      // Si el token es un numero, se va a la cola de salida
-      if (token.isNumber()) {
-        output_Queue.push(token);
-        cout << "Leyendo:" << token.getNumber() << endl;
+  // El shunting yard se hara mientras haya tokens que leer del tokenQueue
+  while (!tokenQueue.empty()) {
+    Token token = tokenQueue.front();
+    // Si el token es un numero, se va a la cola de salida
+    if (token.isNumber()) {
+      output_Queue.push(token);
+      // cout << "Leyendo:" << token.getNumber() << endl;
+    }
+    // si el token es un operador, se hace el siguiente caso
+    if (token.isOperator()) {
+      /*Mientras el stack de operadores no este vacio, el principio del stack
+      no sea un parentesis izq y el token del stack de operadores tenga mayor
+      precedencia que la del token de la lista de tokens o sean de misma
+      precedencia, entonces los operadores que estaban en el stack de
+      operadores, se van a pasar a la cola de salida, por ultimo el token con
+      menor precedencia se pasara al stack de operaciones*/
+      processOperators(token);
+      operation_Stack.push(token);
+    }
+    // si el token es un parentesis izquierdo, se pasara al stack de
+    // operaciones
+    if (token.isParenthesesLeft()) {
+      operation_Stack.push(token);
+    }
+    // si el token es un parentesis derecho, se hara el siguiente caso
+    if (token.isParenthesesRight()) {
+      /*Mientras el stack de operaciones no este vacio y el primer operador
+      del mismo no sea un parentesis izquierdo,anada a la cola de salida, el
+      primer operador del stack de operaciones
+      */
+      while (!operation_Stack.empty() &&
+             !operation_Stack.top().isParenthesesLeft()) {
+        output_Queue.push(operation_Stack.top());
+        operation_Stack.pop();
       }
-      // si el token es un operador, se hace el siguiente caso
-      if (token.isOperator()) {
-        /*Mientras el stack de operadores no este vacio, el principio del stack
-        no sea un parentesis izq y el token del stack de operadores tenga mayor
-        precedencia que la del token de la lista de tokens o sean de misma
-        precedencia, entonces los operadores que estaban en el stack de
-        operadores, se van a pasar a la cola de salida, por ultimo el token con
-        menor precedencia se pasara al stack de operaciones*/
-        processOperators(token);
-        operation_Stack.push(token);
+      // Si el stack esta vacio, cuando el token entra al condicional de si es
+      // parentesis derecho, significa que no hay uno o mas parentesis
+      // izquierdos
+      if (operation_Stack.empty()) {
+        cout << "Error, falta un parentesis izquierdo" << endl;
       }
-      // si el token es un parentesis izquierdo, se pasara al stack de
+      // si el operador es un parentesis izquierdo, se elimina del stack de
       // operaciones
-      if (token.isParenthesesLeft()) {
-        operation_Stack.push(token);
+      if (!operation_Stack.empty() &&
+          operation_Stack.top().isParenthesesLeft()) {
+        operation_Stack.pop();
       }
-      // si el token es un parentesis derecho, se hara el siguiente caso
-      if (token.isParenthesesRight()) {
-        /*Mientras el stack de operaciones no este vacio y el primer operador
-        del mismo no sea un parentesis izquierdo,anada a la cola de salida, el
-        primer operador del stack de operaciones
-        */
-        while (!operation_Stack.empty() &&
-               !operation_Stack.top().isParenthesesLeft()) {
-          output_Queue.push(operation_Stack.top());
-          operation_Stack.pop();
-        }
-        // si el operador es un parentesis izquierdo, se elimina del stack de
-        // operaciones
-        if (!operation_Stack.empty() &&
-            operation_Stack.top().isParenthesesLeft()) {
-          operation_Stack.pop();
-        }
-      }
-      tokenQueue.pop();
     }
-    /*Aparte, si quedan operadores en el stack de operaciones y el primer
-    operador no es un parentesis izquierdo, el operador que este de primero en
-    el stack, se anadira en el token de salida*/
-    while (!operation_Stack.empty() &&
-           !operation_Stack.top().isParenthesesLeft()) {
-      output_Queue.push(operation_Stack.top());
-      operation_Stack.pop();
-    }
-
-  } 
-  //si la funcion parenthesesError devuelve un 2, significa que hay no concordancia en los parentesis
-  //En este caso, hay mas parentesis izquierdos que derechos
-  else if(parenthesesError(tokenQueue) == 2) {
-    output_Queue;
-    cout<<"Error, parentesis derecho insuficiente"<<endl;
+    tokenQueue.pop();
   }
-  //si la funcion parenthesesError devuelve un 3, significa que hay no concordancia en los parentesis
-  //En este caso, hay mas parentesis derechos que izquierdos
-  else if(parenthesesError(tokenQueue) == 3) {
-    cout<<"Error, parentesis izquierdo insuficiente"<<endl;
+  /*Aparte, si quedan operadores en el stack de operaciones y el primer
+  operador no es un parentesis izquierdo, el operador que este de primero en
+  el stack, se anadira en el token de salida*/
+  while (!operation_Stack.empty() &&
+         !operation_Stack.top().isParenthesesLeft()) {
+    output_Queue.push(operation_Stack.top());
+    operation_Stack.pop();
+  }
+  // si al final, al revisar la cima del stack se encontro un parentesis
+  // izquierdo, significa que no hay no hay uno o mas parentesis derechos, ya
+  // que el izquierdo quedo guardado en el stack y el programa nunca entro al
+  // condicional de si el token a revisar era un parentesis derecho
+  if (operation_Stack.top().isParenthesesLeft()) {
+    cout << "Error, falta un parentesis derecho" << endl;
   }
 }
 
@@ -121,30 +118,6 @@ bool shunting_yard::asociativeLeft(Token tokenOperator) {
     return true;
   } else {
     return false;
-  }
-}
-
-//Funcion que revisa si hay o no concordancia con los parentesis dados por el tokenizer, dependiendo del caso
-//devuelve un entero distinto
-int shunting_yard::parenthesesError(queue<Token> tokenTemp) {
-  int contadorLeft = 0, contadorRight = 0;
-  while (!tokenTemp.empty()) {
-    Token tokenValue = tokenTemp.front();
-    if (tokenValue.isParenthesesLeft()) {
-      contadorLeft++;
-    } else if (tokenValue.isParenthesesRight()) {
-      contadorRight++;
-    }
-    tokenTemp.pop();
-  }
-  if (contadorLeft == contadorRight) {
-    return 1;
-  } else if (contadorLeft > contadorRight) {
-    return 2;
-  } else if (contadorLeft < contadorRight) {
-    return 3;
-  } else {
-    return 0;
   }
 }
 

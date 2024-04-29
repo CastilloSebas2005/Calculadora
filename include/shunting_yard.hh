@@ -1,6 +1,6 @@
-// clase shuntin yard
-#ifndef SHUNTIN_YARD_HH
-#define SHUNTIN_YARD_HH
+// clase shunting yard
+#ifndef SHUNTING_YARD_HH
+#define SHUNTING_YARD_HH
 
 #include <queue>
 #include <stack>
