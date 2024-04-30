@@ -47,7 +47,7 @@ shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
       // parentesis derecho, significa que no hay uno o mas parentesis
       // izquierdos
       if (operation_Stack.empty()) {
-        cout << "Error, falta un parentesis izquierdo" << endl;
+        throw std::runtime_error("Error, falta un parentesis izquierdo");
       }
       // si el operador es un parentesis izquierdo, se elimina del stack de
       // operaciones
@@ -71,7 +71,7 @@ shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
   // que el izquierdo quedo guardado en el stack y el programa nunca entro al
   // condicional de si el token a revisar era un parentesis derecho
   if (!operation_Stack.empty() && operation_Stack.top().isParenthesisLeft()) {
-    cout << "Error, falta un parentesis derecho" << endl;
+    throw std::runtime_error("Error, falta un parentesis derecho");
   }
 }
 
