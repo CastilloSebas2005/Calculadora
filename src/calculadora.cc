@@ -2,6 +2,7 @@
 #include <token.hh>
 #include <tokenizer.hh>
 #include <shunting_yard.hh>
+#include <queue>
 using namespace std;
 
 int main() {
@@ -14,7 +15,8 @@ int main() {
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
   tokenizer prueba(")5+1(7)(5+1)(");
-  shunting_yard prueba2(prueba);
+  queue <Token> list = prueba.getList();
+  shunting_yard prueba2(list);
   prueba2.obtenerQueue();
   return 0;
 }

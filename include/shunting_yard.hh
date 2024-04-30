@@ -9,15 +9,14 @@
 
 class shunting_yard {
 public:
-  shunting_yard(tokenizer tokenList);
+  shunting_yard(queue<Token> tokenqueue);
   queue<Token> getOutputQueue();
   void obtenerQueue();
 
 private:
   int parenthesesError(queue<Token> tokenTemp);
   bool asociativeLeft(Token tokenOperator);
-  tokenizer tokenList;
-  queue<Token> tokenQueue; // cola que recibe la lista de tokens del tokenizer
+  queue<Token> tokenList; // cola que recibe la lista de tokens del tokenizer
   queue<Token> output_Queue;
   stack<Token> operation_Stack;
   int getPrecedence(Token tokenOperator);

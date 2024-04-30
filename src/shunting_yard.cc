@@ -7,12 +7,10 @@
 
 using namespace std;
 
-shunting_yard::shunting_yard(tokenizer tokenList) : tokenList(tokenList) {
-  // Declaracion de tokenQueue como la cola de tokenizer
-  tokenQueue = tokenList.getList();
+shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
   // El shunting yard se hara mientras haya tokens que leer del tokenQueue
-  while (!tokenQueue.empty()) {
-    Token token = tokenQueue.front();
+  while (!tokenlist.empty()) {
+    Token token = tokenlist.front();
     // Si el token es un numero, se va a la cola de salida
     if (token.isNumber()) {
       output_Queue.push(token);
@@ -58,7 +56,7 @@ shunting_yard::shunting_yard(tokenizer tokenList) : tokenList(tokenList) {
         operation_Stack.pop();
       }
     }
-    tokenQueue.pop();
+    tokenlist.pop();
   }
   /*Aparte, si quedan operadores en el stack de operaciones y el primer
   operador no es un parentesis izquierdo, el operador que este de primero en
