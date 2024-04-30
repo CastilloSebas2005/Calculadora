@@ -18,7 +18,7 @@ private:
   //estas funcionalidades son diferentes a la de token porque estas tienen que recibir el estado del operador
   int addOperator(int positionD); 
   int addNumber(int positionD);
-  
+  int addParethesis(int positionD);
 };
 
 #endif

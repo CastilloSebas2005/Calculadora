@@ -12,20 +12,14 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   bool validation = true;
   while (position < inputuser.size() && validation) {
     try {
-      if (inputUser[position] == '(' || inputUser[position] == ')') {
-        state = TokenType::TOKEN_TYPE_PARENTHESIS;
-        string saveParenthesis;
-        saveParenthesis += inputUser[position];
-        Token tokenPush(state, saveParenthesis);
-        tokenList.push(tokenPush);
-        position++;
-      } else {
+      
         position = addNumber(position);
         position = addOperator(position);
+        position = addParethesis(position);
         if (state == TokenType::TOKEN_TYPE_UNKNOWN) {
           position++;
         }
-      }
+      
     } catch (const std::runtime_error &e) {
       std::cerr << "Se ha capturado una excepción: " << e.what() << '\n';
       validation = false;
@@ -44,14 +38,14 @@ int tokenizer::addNumber(int positionD) {
             inputUser[positionD] <= '9') ||
            inputUser[positionD] == '.') {
       if (inputUser[positionD] == '.') {
-        if (decimal == true) {
+        if (decimal) {
           throw std::runtime_error("Solo puede haber un punto, no existen "
                                    "numeros con dos puntos decimales");
         } else {
           decimal = true;
         }
       } else {
-        if (decimal == true) {
+        if (decimal) {
           countOfDec = (countOfDec / 10);
           saveNumber = saveNumber + (countOfDec * (inputUser[positionD] - '0'));
         } else {
@@ -111,13 +105,47 @@ int tokenizer::addOperator(int positionD) {
     isOperator = false;
     break;
   }
-  if (isOperator == true) {
+  if (isOperator) {
     Token tokenPush(state, operatorSave);
     tokenList.push(tokenPush);
   }
   return positionD;
 }
 
+int tokenizer::addParethesis(int positionD){
+  string saveParenthesis;
+  state = TokenType::TOKEN_TYPE_PARENTHESIS;
+  bool isParenthesis = true;
+  switch (inputUser[positionD])
+  {
+  case '(':
+  case ')':
+    saveParenthesis += inputUser[positionD];
+    positionD++;
+    break;
+
+  case '[':
+  case ']':
+    saveParenthesis += inputUser[positionD];
+    positionD++;
+    break;
+
+  case '}':
+  case '{':
+    saveParenthesis += inputUser[positionD];
+    positionD++;
+    break;
+
+  default:
+    isParenthesis = false;
+    break;
+  }
+  if(isParenthesis){
+    Token tokenPush(state, saveParenthesis);
+    tokenList.push(tokenPush);
+  }
+  return positionD;
+}
 queue<Token> tokenizer::getList() { return tokenList; }
 
 void tokenizer::seeList() {

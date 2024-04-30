@@ -32,17 +32,8 @@ bool Token::isOperator() { // averigua si es operación
 }
 
 bool Token::isParenthesisRight(){
-  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && value == ")") {
-    return true;
-  } else {
-    return false;
-  }
-
+  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && (value == ")" || value == "}" || value == "]");
 }
 bool Token::isParenthesisLeft(){
-  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && value == "(") {
-    return true;
-  } else {
-    return false;
-  }
+  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && (value == "(" || value == "{" || value == "[");
 }
