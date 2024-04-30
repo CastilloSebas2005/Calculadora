@@ -2,6 +2,7 @@
 #include <token.hh>
 #include <tokenizer.hh>
 #include <shunting_yard.hh>
+#include <queue>
 using namespace std;
 
 int main() {
@@ -13,8 +14,9 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer prueba("45.89 88");
-  shunting_yard prueba2(prueba);
-  prueba.obtenerLista();
+  tokenizer prueba("{5+8.8}*5^(4/2)]");
+  queue <Token> pruebaT = prueba.getList();
+  shunting_yard prueba2(pruebaT);
+  prueba2.obtenerQueue();
   return 0;
 }

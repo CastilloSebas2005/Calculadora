@@ -1,6 +1,6 @@
-// clase shuntin yard
-#ifndef SHUNTIN_YARD_HH
-#define SHUNTIN_YARD_HH
+// clase shunting yard
+#ifndef SHUNTING_YARD_HH
+#define SHUNTING_YARD_HH
 
 #include <queue>
 #include <stack>
@@ -9,13 +9,18 @@
 
 class shunting_yard {
 public:
-  shunting_yard(tokenizer tokenlist);
-  queue <Token> getOutputQueue();
+  shunting_yard(queue<Token> tokenqueue);
+  queue<Token> getOutputQueue();
+  void obtenerQueue();
+
 private:
-  tokenizer tokenList;
-  queue<Token> tokenQueue; //cola que recibe la lista de tokens del tokenizer
+  int parenthesesError(queue<Token> tokenTemp);
+  bool asociativeLeft(Token tokenOperator);
+  queue<Token> tokenList; 
   queue<Token> output_Queue;
   stack<Token> operation_Stack;
+  int getPrecedence(Token tokenOperator);
+  void processOperators(Token tokenOperator);
 };
 
 #endif

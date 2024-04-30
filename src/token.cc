@@ -31,11 +31,9 @@ bool Token::isOperator() { // averigua si es operación
   }
 }
 
-bool Token::isParentheses(){
-  if (tokenType == TokenType::TOKEN_TYPE_PARENTHESES) {
-    return true;
-  } else {
-    return false;
-  }
-
+bool Token::isParenthesisRight(){
+  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && (value == ")" || value == "}" || value == "]");
+}
+bool Token::isParenthesisLeft(){
+  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && (value == "(" || value == "{" || value == "[");
 }
