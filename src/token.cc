@@ -9,31 +9,29 @@ Token::Token(TokenType type, string value) : tokenType(type), value(value) {
   }
 }
 
-TokenType Token::type() { return tokenType; } // No sé si está bien implementada
+// obtiene el type del token
+TokenType Token::type() { return tokenType; }
 
-string Token::getValue() { return value; } // obtiene el valor en string
+// obtiene el valor en string
+string Token::getValue() { return value; }
 
-double Token::getNumber() { return numberValue; } // obtiene el valor en double
+// obtiene el valor en double
+double Token::getNumber() { return numberValue; }
 
-bool Token::isNumber() { // averigua si es numero
-  if (tokenType == TokenType::TOKEN_TYPE_NUMBER) {
-    return true;
-  } else {
-    return false;
-  }
+// averigua si es numero
+bool Token::isNumber() { return tokenType == TokenType::TOKEN_TYPE_NUMBER; }
+
+// averigua si es operación
+bool Token::isOperator() { return tokenType == TokenType::TOKEN_TYPE_OPERATOR; }
+
+// averigua parentesis derecho
+bool Token::isParenthesisRight() {
+  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS &&
+         (value == ")" || value == "}" || value == "]");
 }
 
-bool Token::isOperator() { // averigua si es operación
-  if (tokenType == TokenType::TOKEN_TYPE_OPERATOR) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-bool Token::isParenthesisRight(){
-  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && (value == ")" || value == "}" || value == "]");
-}
-bool Token::isParenthesisLeft(){
-  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS && (value == "(" || value == "{" || value == "[");
+// averigua parentesis izquierdo
+bool Token::isParenthesisLeft() {
+  return tokenType == TokenType::TOKEN_TYPE_PARENTHESIS &&
+         (value == "(" || value == "{" || value == "[");
 }
