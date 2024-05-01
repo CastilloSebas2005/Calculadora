@@ -55,7 +55,13 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
         // excepción con log de 0
         {
           throw runtime_error ("Logaritmo de 0 es indefinido...");
-        } else {
+        } 
+        else if (operand2.getNumber()==1)
+        {
+          throw runtime_error("Logaritmo en base 1 de otro número no existe...");
+        }
+        else
+        {
           Result = log(operand1.getNumber()) / log(operand2.getNumber());
           
         }
@@ -79,7 +85,6 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
 
       default:
         throw runtime_error("No introdujo operadores válidos...");
-        showError();
         break;
       }
       Token saveResult(TokenType::TOKEN_TYPE_NUMBER, to_string(Result));
