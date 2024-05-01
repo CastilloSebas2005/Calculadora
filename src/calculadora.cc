@@ -3,6 +3,7 @@
 #include <tokenizer.hh>
 #include <shunting_yard.hh>
 #include <queue>
+#include <calculator.hh>
 using namespace std;
 
 int main() {
@@ -19,5 +20,9 @@ int main() {
   shunting_yard prueba2(pruebaT);
   queue <Token> test = prueba2.getOutputQueue();
   prueba2.obtenerQueue();
+
+
+  cout << "Ingrese una expresion"<< endl;
+  calculator();
   return 0;
 }

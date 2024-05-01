@@ -5,6 +5,8 @@
 #include <string>
 #include <token.hh>
 
+using namespace std;
+
 class tokenizer {
 public:
   tokenizer(string inputuser);
