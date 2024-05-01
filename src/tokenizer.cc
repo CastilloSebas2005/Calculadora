@@ -11,18 +11,11 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   int position = 0;
   bool validation = true;
   while (position < inputuser.size() && validation) {
-    try {
-      
-        position = addNumber(position);
-        position = addOperator(position);
-        position = addParethesis(position);
-        if (state == TokenType::TOKEN_TYPE_UNKNOWN) {
-          position++;
-        }
-      
-    } catch (const std::runtime_error &e) {
-      std::cerr << "Se ha capturado una excepción: " << e.what() << '\n';
-      validation = false;
+    position = addNumber(position);
+    position = addOperator(position);
+    position = addParethesis(position);
+    if (state == TokenType::TOKEN_TYPE_UNKNOWN || inputuser[position] == ' ') {
+      position++;
     }
   }
 }
@@ -112,12 +105,11 @@ int tokenizer::addOperator(int positionD) {
   return positionD;
 }
 
-int tokenizer::addParethesis(int positionD){
+int tokenizer::addParethesis(int positionD) {
   string saveParenthesis;
   state = TokenType::TOKEN_TYPE_PARENTHESIS;
   bool isParenthesis = true;
-  switch (inputUser[positionD])
-  {
+  switch (inputUser[positionD]) {
   case '(':
   case ')':
     saveParenthesis += inputUser[positionD];
@@ -140,7 +132,7 @@ int tokenizer::addParethesis(int positionD){
     isParenthesis = false;
     break;
   }
-  if(isParenthesis){
+  if (isParenthesis) {
     Token tokenPush(state, saveParenthesis);
     tokenList.push(tokenPush);
   }

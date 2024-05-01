@@ -88,14 +88,24 @@ void shunting_yard::obtenerQueue() {
 // Metodo que le da la precedencia a los operadores
 int shunting_yard::getPrecedence(Token tokenOperator) {
   string tokenOp = tokenOperator.getValue();
-  if (tokenOp == "^" || tokenOp == "_" || tokenOp == "v") {
-    return 3;
-  } else if (tokenOp == "*" || tokenOp == "/") {
-    return 2;
-  } else if (tokenOp == "+" || tokenOp == "-") {
-    return 1;
+  switch(tokenOp[0]){
+    case '^':
+    case '_':
+    case 'v':
+      return 3;
+      break;
+    case '*':
+    case '/':
+      return 2;
+      break;
+    case '+':
+    case '-':
+      return 1;
+      break;
+    default:
+      return 0;
+      break;
   }
-  return 0;
 }
 // metodo que hace el caso de si el token es un operador
 void shunting_yard::processOperators(Token tokenOperator) {
@@ -111,11 +121,24 @@ void shunting_yard::processOperators(Token tokenOperator) {
 
 // Metodo que decide si el operador a analizar es un izquierdo asociativo
 bool shunting_yard::asociativeLeft(Token tokenOperator) {
-  if (tokenOperator.getValue() == "+" || tokenOperator.getValue() == "-" ||
-      tokenOperator.getValue() == "*" || tokenOperator.getValue() == "/") {
-    return true;
-  } else {
-    return false;
+  string tokenOp = tokenOperator.getValue();
+  switch(tokenOp[0]){
+    case '+':
+    case '-':
+      return true;
+      break;
+    case '*':
+    case '/':
+      return true;
+      break;
+    case '^':
+    case 'v':
+    case '_':
+      return true;
+      break;
+    default:
+      return false;
+      break;
   }
 }
 
