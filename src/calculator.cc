@@ -6,6 +6,7 @@
 #include <shunting_yard.hh>
 #include <calculator.hh>
 #include <postfija.hh>
+#include <stdexcept>
 
 calculator::calculator(){
     string expression;
@@ -18,11 +19,15 @@ void calculator::printResult(int numberToPrint){
 }
 
 void calculator::evaluatorOfExpression(string input){
-    tokenizer inputUserToTokens(input);
-    queue <Token> expressionToTokens = inputUserToTokens.getList();
-    shunting_yard convertExpression(expressionToTokens);
-    queue <Token> infixNotation = convertExpression.getOutputQueue();
-    postfija solveExpression(infixNotation);
-    double result = solveExpression.getResult();
-    printResult(result);
+    try{
+        tokenizer inputUserToTokens(input);
+        queue <Token> expressionToTokens = inputUserToTokens.getList();
+        shunting_yard convertExpression(expressionToTokens);
+        queue <Token> infixNotation = convertExpression.getOutputQueue();
+        postfija solveExpression(infixNotation);
+        double result = solveExpression.getResult();
+        printResult(result);
+    }catch(runtime_error& errorExpression){
+        cerr << "Runtime error: " << errorExpression.what() << std::endl;
+    }
 }
