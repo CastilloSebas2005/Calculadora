@@ -16,7 +16,7 @@ public:
 private:
   int parenthesesError(queue<Token> tokenTemp);
   bool asociativeLeft(Token tokenOperator);
-  queue<Token> tokenList; 
+  queue<Token> tokenList;
   queue<Token> output_Queue;
   stack<Token> operation_Stack;
   int getPrecedence(Token tokenOperator);

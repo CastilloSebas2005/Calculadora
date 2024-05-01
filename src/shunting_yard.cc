@@ -47,7 +47,7 @@ shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
       // parentesis derecho, significa que no hay uno o mas parentesis
       // izquierdos
       if (operation_Stack.empty()) {
-        cout << "Error, falta un parentesis izquierdo" << endl;
+        throw std::runtime_error("Error, falta un parentesis izquierdo");
       }
       // si el operador es un parentesis izquierdo, se elimina del stack de
       // operaciones
@@ -71,7 +71,7 @@ shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
   // que el izquierdo quedo guardado en el stack y el programa nunca entro al
   // condicional de si el token a revisar era un parentesis derecho
   if (!operation_Stack.empty() && operation_Stack.top().isParenthesisLeft()) {
-    cout << "Error, falta un parentesis derecho" << endl;
+    throw std::runtime_error("Error, falta un parentesis derecho");
   }
 }
 
@@ -88,14 +88,24 @@ void shunting_yard::obtenerQueue() {
 // Metodo que le da la precedencia a los operadores
 int shunting_yard::getPrecedence(Token tokenOperator) {
   string tokenOp = tokenOperator.getValue();
-  if (tokenOp == "^" || tokenOp == "_" || tokenOp == "v") {
+  switch (tokenOp[0]) {
+  case '^':
+  case '_':
+  case 'v':
     return 3;
-  } else if (tokenOp == "*" || tokenOp == "/") {
+    break;
+  case '*':
+  case '/':
     return 2;
-  } else if (tokenOp == "+" || tokenOp == "-") {
+    break;
+  case '+':
+  case '-':
     return 1;
+    break;
+  default:
+    return 0;
+    break;
   }
-  return 0;
 }
 // metodo que hace el caso de si el token es un operador
 void shunting_yard::processOperators(Token tokenOperator) {
@@ -111,11 +121,19 @@ void shunting_yard::processOperators(Token tokenOperator) {
 
 // Metodo que decide si el operador a analizar es un izquierdo asociativo
 bool shunting_yard::asociativeLeft(Token tokenOperator) {
-  if (tokenOperator.getValue() == "+" || tokenOperator.getValue() == "-" ||
-      tokenOperator.getValue() == "*" || tokenOperator.getValue() == "/") {
+  string tokenOp = tokenOperator.getValue();
+  switch (tokenOp[0]) {
+  case '+':
+  case '-':
     return true;
-  } else {
+    break;
+  case '*':
+  case '/':
+    return true;
+    break;
+  default:
     return false;
+    break;
   }
 }
 
