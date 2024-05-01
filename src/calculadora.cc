@@ -3,6 +3,8 @@
 #include <tokenizer.hh>
 #include <shunting_yard.hh>
 #include <queue>
+#include <postfija.hh>
+#include <postfija.hh>
 using namespace std;
 
 int main() {
@@ -17,6 +19,9 @@ int main() {
   tokenizer prueba(") 5 + 1 ( 8 + }{5+1)(");
   queue <Token> pruebaT = prueba.getList();
   shunting_yard prueba2(pruebaT);
+  queue <Token> test = prueba2.getOutputQueue();
   prueba2.obtenerQueue();
+  postfija postfija(test);
+  cout << postfija.getResult()<< endl;
   return 0;
 }
