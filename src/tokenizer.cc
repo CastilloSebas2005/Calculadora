@@ -16,7 +16,7 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
         position = addNumber(position);
         position = addOperator(position);
         position = addParethesis(position);
-        if (state == TokenType::TOKEN_TYPE_UNKNOWN) {
+        if (state == TokenType::TOKEN_TYPE_UNKNOWN || inputuser[position] == ' ') {
           position++;
         }
       
