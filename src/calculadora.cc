@@ -3,6 +3,7 @@
 #include <tokenizer.hh>
 #include <shunting_yard.hh>
 #include <queue>
+#include <postfija.hh>
 using namespace std;
 
 int main() {
