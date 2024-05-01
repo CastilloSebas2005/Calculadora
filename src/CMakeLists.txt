@@ -7,7 +7,6 @@ calculadora.cc
 token.cc
 tokenizer.cc
 shunting_yard.cc
-postfija.cc
 )
 
 target_include_directories(Calculadora PUBLIC ../include)
