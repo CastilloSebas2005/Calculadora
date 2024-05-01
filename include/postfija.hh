@@ -10,7 +10,7 @@ class postfija {
 public:
   postfija(queue<Token> tokenqueue);
   double getResult();
-  string showError();
+  void showError();
 
 private:
   string error;

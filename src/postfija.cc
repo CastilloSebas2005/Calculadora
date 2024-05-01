@@ -1,5 +1,5 @@
 #include <cmath>
-#include <iostream>
+#include <stdexcept>
 #include <postfija.hh>
 #include <queue>
 #include <stack>
@@ -44,25 +44,22 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
         if (operand2.getNumber() == 0)
         // excepción de división entre 0
         {
-          error = "Dividir entre 0 es indefinido...";
-          showError();
-          break;
+          throw runtime_error ("Dividir entre 0 es indefinido...");
         } else {
           Result = operand1.getNumber() / operand2.getNumber();
-          break;
         }
+        break;
       case '_':
         // Logaritmo
         if (operand1.getNumber() == 0 || operand2.getNumber() == 0)
         // excepción con log de 0
         {
-          error = "Logaritmo de 0 es indefinido...";
-          showError();
-          break;
+          throw runtime_error ("Logaritmo de 0 es indefinido...");
         } else {
           Result = log(operand1.getNumber()) / log(operand2.getNumber());
-          break;
+          
         }
+        break;
 
       case '^':
         // Potencia
@@ -73,16 +70,15 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
         if (operand2.getNumber() < 0 && int(operand1.getNumber()) % 2 == 0)
         // excepción con numeros negativos
         {
-          error = "No trabajamos con numeros imaginarios...";
-          showError();
-          break;
+          throw runtime_error("No trabajamos con numeros imaginarios...");
+          
         } else {
           Result = pow(operand2.getNumber(), (1 / operand1.getNumber()));
-          break;
         }
+        break;
 
       default:
-        error = "No introdujo operadores válidos...";
+        throw runtime_error("No introdujo operadores válidos...");
         showError();
         break;
       }
@@ -95,5 +91,5 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
     }
   }
 }
-string postfija::showError() { return error; }
+
 double postfija::getResult() { return result; }

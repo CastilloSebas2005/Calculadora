@@ -26,7 +26,7 @@ add_executable(calculadora_test
 token_test.cc
 tokenizer_test.cc
 shunting_yard_test.cc
-postfija.cc
+postfix_test.cc
 ${Calculadora_SOURCE_DIR}/src/token.cc
 ${Calculadora_SOURCE_DIR}/src/tokenizer.cc
 ${Calculadora_SOURCE_DIR}/src/shunting_yard.cc
