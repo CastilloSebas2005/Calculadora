@@ -10,16 +10,18 @@
 using namespace std;
 
 int main() {
-  string expression;
-  
-  bool control;
-  do{
-    cout << "Ingrese una expresion o escriba salir"<< endl;
-    getline(cin, expression);
-    calculator usuario(expression);
-    control = usuario.evaluatorOfExpression();
-    
-  }while(control);
-  
+  cout << "Calculadora de Expresiones" << endl;
+  Token token(TokenType::TOKEN_TYPE_NUMBER, "5");
+  cout << "Token: " << token.getValue() << endl;
+  TokenType tipo = token.type();
+  cout << "TokenType: " << static_cast<int>(tipo) << endl;
+  cout << "Es un número: " << token.isNumber() << endl;
+  cout << "Es un operador: " << token.isOperator() << endl;
+  cout << "Número: " << token.getNumber() << endl;
+  tokenizer prueba("5+1");
+  queue <Token> pruebaT = prueba.getList();
+  shunting_yard prueba2(pruebaT);
+  queue <Token> test = prueba2.getOutputQueue();
+  prueba2.obtenerQueue();
   return 0;
 }
