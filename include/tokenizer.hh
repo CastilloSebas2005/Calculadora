@@ -21,6 +21,8 @@ private:
   int addOperator(int positionD);
   int addNumber(int positionD);
   int addParethesis(int positionD);
+  //esta función es para descartar operadores raros que no sean ' '
+  bool rareOperator(int positionD); 
 };
 
 #endif

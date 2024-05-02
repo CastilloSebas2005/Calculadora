@@ -14,7 +14,7 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer prueba("5+1");
+  tokenizer prueba("5++x1");
   queue <Token> pruebaT = prueba.getList();
   shunting_yard prueba2(pruebaT);
   queue <Token> test = prueba2.getOutputQueue();

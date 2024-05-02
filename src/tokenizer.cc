@@ -17,9 +17,15 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
       state = TokenType::TOKEN_TYPE_UNKNOWN;
       position++;
     }else{
-      position = addNumber(position);
-      position = addOperator(position);
-      position = addParethesis(position);
+      string error;
+      if(rareOperator(position)){
+        error += inputuser[position];
+        throw runtime_error("ERROR: el caracter "+ error + " no es reconocido por la calculadora");
+      }else{
+        position = addNumber(position);
+        position = addOperator(position);
+        position = addParethesis(position);
+      }
     }
   }
 }
@@ -37,8 +43,7 @@ int tokenizer::addNumber(int positionD) {
            inputUser[positionD] == '.') {
       if (inputUser[positionD] == '.') {
         if (decimal) {
-          throw std::runtime_error("Solo puede haber un punto, no existen "
-                                   "numeros con dos puntos decimales");
+          throw std::runtime_error("ERROR: ingresó un doble punto");
         } else {
           decimal = true;
         }
@@ -62,9 +67,12 @@ int tokenizer::addNumber(int positionD) {
 }
 
 //función que añade un operador a la cola de tokens y captura algunos errores
+
 int tokenizer::addOperator(int positionD) {
+  string error;
   if(state == TokenType::TOKEN_TYPE_OPERATOR){
-    throw runtime_error("No puede poner dos operadores juntos");
+     error += inputUser[positionD];
+    throw runtime_error("ERROR: operador "+ error + " tiene atrás o adelante otro operador y eso no puede pasar");
   }
   string operatorSave;
   
@@ -100,7 +108,7 @@ int tokenizer::addOperator(int positionD) {
     break;
   case 'V':
     operatorSave = "V";
-    throw runtime_error("No puede ingresar 'V' ¿quiso decir 'v'?");
+    throw runtime_error("ERROR: No puede ingresar 'V' ¿quiso decir 'v'?");
     break;
   default:
     isOperator = false;
@@ -158,4 +166,12 @@ void tokenizer::seeList() {
     cout << see.getValue();
     tokenList.pop();
   }
+}
+
+bool tokenizer::rareOperator(int positionD){
+  return (inputUser[positionD] >= 65 && inputUser[positionD] <= 90) 
+  || (inputUser[positionD] >= 97 && inputUser[positionD] <= 122) 
+  || inputUser[positionD] == '='
+  || inputUser[positionD] == '&'
+  || inputUser[positionD] == '|';
 }
