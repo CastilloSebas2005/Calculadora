@@ -9,12 +9,14 @@ using namespace std;
 
 shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
   // El shunting yard se hara mientras haya tokens que leer del tokenQueue
-  Token firstError = tokenlist.front();
-  if(firstError.isOperator()){
+  Token error = tokenlist.front();
+  if(error.isOperator()){
     throw runtime_error("ERROR: No puede iniciar con un operador, debe iniciar con un número");
   }
   while (!tokenlist.empty()) {
     Token token = tokenlist.front();
+    error = token;
+    tokenlist.pop();
     // Si el token es un numero, se va a la cola de salida
     if (token.isNumber()) {
       output_Queue.push(token);
@@ -60,7 +62,10 @@ shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
         operation_Stack.pop();
       }
     }
-    tokenlist.pop();
+    
+  }
+  if(error.isOperator()){
+    throw runtime_error("ERROR: No puede finalizar con un operador, debe iniciar con un número");
   }
   /*Aparte, si quedan operadores en el stack de operaciones y el primer
   operador no es un parentesis izquierdo, el operador que este de primero en
