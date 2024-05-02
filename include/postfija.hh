@@ -6,6 +6,8 @@
 #include <string>
 #include <token.hh>
 
+using namespace std;
+
 class postfija {
 public:
   postfija(queue<Token> tokenqueue);

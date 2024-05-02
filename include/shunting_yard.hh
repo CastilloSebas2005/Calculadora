@@ -7,9 +7,11 @@
 #include <string.h>
 #include <tokenizer.hh>
 
+using namespace std;
+
 class shunting_yard {
 public:
-  shunting_yard(queue<Token> tokenqueue);
+  shunting_yard(queue<Token> tokenlist);
   queue<Token> getOutputQueue();
   void obtenerQueue();
 

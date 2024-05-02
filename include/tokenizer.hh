@@ -5,6 +5,8 @@
 #include <string>
 #include <token.hh>
 
+using namespace std;
+
 class tokenizer {
 public:
   tokenizer(string inputuser);
@@ -21,6 +23,9 @@ private:
   int addOperator(int positionD);
   int addNumber(int positionD);
   int addParethesis(int positionD);
+
+  //esta función es para descartar operadores raros que no sean ' '
+  bool rareOperator(int positionD); 
 };
 
 #endif

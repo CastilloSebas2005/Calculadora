@@ -55,13 +55,7 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
         // excepción con log de 0
         {
           throw runtime_error ("Logaritmo de 0 es indefinido...");
-        } 
-        else if (operand2.getNumber()==1)
-        {
-          throw runtime_error("Logaritmo en base 1 de otro número no existe...");
-        }
-        else
-        {
+        } else {
           Result = log(operand1.getNumber()) / log(operand2.getNumber());
           
         }
@@ -69,7 +63,11 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
 
       case '^':
         // Potencia
-        Result = pow(operand1.getNumber(), operand2.getNumber());
+        if(operand1.getNumber() < 0 && int(operand2.getNumber()) % 2 == 0){
+            throw runtime_error("No trabajamos con numeros imaginarios...");
+        }else{
+         Result = pow(operand1.getNumber(), operand2.getNumber());
+        }
         break;
       case 'v':
         // Raíz

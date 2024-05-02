@@ -9,6 +9,10 @@ using namespace std;
 
 shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
   // El shunting yard se hara mientras haya tokens que leer del tokenQueue
+  Token firstError = tokenlist.front();
+  if(firstError.isOperator()){
+    throw runtime_error("ERROR: No puede iniciar con un operador, debe iniciar con un número");
+  }
   while (!tokenlist.empty()) {
     Token token = tokenlist.front();
     // Si el token es un numero, se va a la cola de salida
@@ -72,6 +76,13 @@ shunting_yard::shunting_yard(queue<Token> tokenlist) : tokenList(tokenlist) {
   // condicional de si el token a revisar era un parentesis derecho
   if (!operation_Stack.empty() && operation_Stack.top().isParenthesisLeft()) {
     throw std::runtime_error("Error, falta un parentesis derecho");
+  }
+  
+  if(!output_Queue.empty()){
+    Token token = output_Queue.front();
+    if (token.isOperator()){
+      throw std::runtime_error("ERROR: no se puede empezar con un operador");
+    }
   }
 }
 
