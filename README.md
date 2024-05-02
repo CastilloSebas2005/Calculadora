@@ -13,3 +13,5 @@ Instrucciones para compilar
 2. Cree la carpeta build con el siguiete comando "cmake -S.-B build" (asegúrese de primero haber copiado el repositorio y estar dentro de la carpeta que crea el mismo)
 3. Luego de crear la carpeta build compile el programa con el siguiente comando "cmake --build build"
 4. Finalmente para ejecutar el programa escriba "./build/src/Calculadora"
+
+5. Cabe recalcar que el programa tiene algunos errores para raíces negativas y exponentes como si fueran raíces negativas no lo hace.. da not a number
