@@ -9,6 +9,9 @@
 using namespace std;
 
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
+  if(inputUser == ""){
+    throw runtime_error("ERROR: debe de ingresar algo");
+  }
   int position = 0;
   bool validation = true;
   state = TokenType::TOKEN_TYPE_UNKNOWN;

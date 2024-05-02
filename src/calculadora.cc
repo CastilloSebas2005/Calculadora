@@ -10,16 +10,19 @@
 using namespace std;
 
 int main() {
-  string expression;
-  
+ 
   bool control;
-  do{
+
+    
+    
+  while(control){
+    string expression;
     cout << "Ingrese una expresion o escriba salir"<< endl;
     getline(cin, expression);
     calculator usuario(expression);
     control = usuario.evaluatorOfExpression();
-    
-  }while(control);
+
+  }
   
   return 0;
 }

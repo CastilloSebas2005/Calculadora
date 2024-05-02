@@ -66,7 +66,7 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
 
       case '^':
         // Potencia
-        if(operand1.getNumber() < 0 && int(operand2.getNumber()) % 2 == 0){
+        if(operand1.getNumber() < 0 && (fmod(2,operand2.getNumber()) == 0)){
             throw runtime_error("No trabajamos con numeros imaginarios...");
         }else{
          Result = pow(operand1.getNumber(), operand2.getNumber());
@@ -74,7 +74,7 @@ postfija::postfija(queue<Token> tokenqueue) : tokenQueue(tokenqueue) {
         break;
       case 'v':
         // Raíz
-        if (operand2.getNumber() < 0 && int(operand1.getNumber()) % 2 == 0)
+        if (operand2.getNumber() < 0 && (fmod(operand2.getNumber(),2) == 0))
         // excepción con numeros negativos
         {
           throw runtime_error("No trabajamos con numeros imaginarios...");
