@@ -19,15 +19,20 @@ void calculator::printResult(int numberToPrint){
 }
 
 void calculator::evaluatorOfExpression(string input){
-    try{
-        tokenizer inputUserToTokens(input);
-        queue <Token> expressionToTokens = inputUserToTokens.getList();
-        shunting_yard convertExpression(expressionToTokens);
-        queue <Token> infixNotation = convertExpression.getOutputQueue();
-        postfija solveExpression(infixNotation);
-        double result = solveExpression.getResult();
-        printResult(result);
-    }catch(runtime_error& errorExpression){
-        cerr << "Runtime error: " << errorExpression.what() << std::endl;
+    if(input == "salir"){
+        cout<<"Saliendo..."<<endl;
+    }
+    else{
+        try{
+            tokenizer inputUserToTokens(input);
+            queue <Token> expressionToTokens = inputUserToTokens.getList();
+            shunting_yard convertExpression(expressionToTokens);
+            queue <Token> infixNotation = convertExpression.getOutputQueue();
+            postfija solveExpression(infixNotation);
+            double result = solveExpression.getResult();
+            printResult(result);
+        }catch(runtime_error& errorExpression){
+            cerr << "Runtime error: " << errorExpression.what() << std::endl;
+        }
     }
 }
