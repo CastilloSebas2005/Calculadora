@@ -1,6 +1,7 @@
 #include <iostream>
-//esta estructura de datos fue tomada de https://cplusplus.com/reference/queue/queue/
-#include <queue> 
+// esta estructura de datos fue tomada de
+// https://cplusplus.com/reference/queue/queue/
+#include <queue>
 #include <stdexcept>
 #include <string>
 #include <token.hh>
@@ -9,7 +10,7 @@
 using namespace std;
 
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
-  if(inputUser == ""){
+  if (inputUser == "") {
     throw runtime_error("ERROR: debe de ingresar algo");
   }
   int position = 0;
@@ -19,12 +20,13 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
     if (inputuser[position] == ' ') {
       state = TokenType::TOKEN_TYPE_UNKNOWN;
       position++;
-    }else{
+    } else {
       string error;
-      if(rareOperator(position)){
+      if (rareOperator(position)) {
         error += inputuser[position];
-        throw runtime_error("ERROR: el caracter "+ error + " no es reconocido por la calculadora");
-      }else{
+        throw runtime_error("ERROR: el caracter " + error +
+                            " no es reconocido por la calculadora");
+      } else {
         position = addNumber(position);
         position = addOperator(position);
         position = addParethesis(position);
@@ -33,7 +35,8 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   }
 }
 
-//funcion que añade un número a la cola de tokens y captura un error por si tiene doble decimal
+// funcion que añade un número a la cola de tokens y captura un error por si
+// tiene doble decimal
 int tokenizer::addNumber(int positionD) {
   if (inputUser[positionD] >= '0' && inputUser[positionD] <= '9') {
     bool decimal = false;
@@ -59,26 +62,26 @@ int tokenizer::addNumber(int positionD) {
         }
       }
       positionD++;
-     
     }
     string numberSave = to_string(saveNumber);
     Token tokenPush(state, numberSave);
     tokenList.push(tokenPush);
-
   }
   return positionD;
 }
 
-//función que añade un operador a la cola de tokens y captura algunos errores
+// función que añade un operador a la cola de tokens y captura algunos errores
 
 int tokenizer::addOperator(int positionD) {
   string error;
-  if(state == TokenType::TOKEN_TYPE_OPERATOR){
-     error += inputUser[positionD];
-    throw runtime_error("ERROR: operador "+ error + " tiene atrás o adelante otro operador y eso no puede pasar");
+  if (state == TokenType::TOKEN_TYPE_OPERATOR) {
+    error += inputUser[positionD];
+    throw runtime_error(
+        "ERROR: operador " + error +
+        " tiene atrás o adelante otro operador y eso no puede pasar");
   }
   string operatorSave;
-  
+
   bool isOperator = true;
   switch (inputUser[positionD]) {
   case '+':
@@ -121,10 +124,11 @@ int tokenizer::addOperator(int positionD) {
   return positionD;
 }
 
-//función que añade un parentesis a la cola de tokens dependiendo del tipo de paréntesis
+// función que añade un parentesis a la cola de tokens dependiendo del tipo de
+// paréntesis
 int tokenizer::addParethesis(int positionD) {
   string saveParenthesis;
-  
+
   bool isParenthesis = true;
   switch (inputUser[positionD]) {
   case '(':
@@ -153,7 +157,6 @@ int tokenizer::addParethesis(int positionD) {
     state = TokenType::TOKEN_TYPE_PARENTHESIS;
     Token tokenPush(state, saveParenthesis);
     tokenList.push(tokenPush);
-    
   }
   return positionD;
 }
@@ -167,10 +170,10 @@ void tokenizer::seeList() {
   }
 }
 
-bool tokenizer::rareOperator(int positionD){
-  return (inputUser[positionD] >= 65 && inputUser[positionD] <= 90) 
-  || (inputUser[positionD] >= 97 && inputUser[positionD] <= 122 && inputUser[positionD] != 118) 
-  || inputUser[positionD] == '='
-  || inputUser[positionD] == '&'
-  || inputUser[positionD] == '|';
+bool tokenizer::rareOperator(int positionD) {
+  return (inputUser[positionD] >= 65 && inputUser[positionD] <= 90) ||
+         (inputUser[positionD] >= 97 && inputUser[positionD] <= 122 &&
+          inputUser[positionD] != 118) ||
+         inputUser[positionD] == '=' || inputUser[positionD] == '&' ||
+         inputUser[positionD] == '|';
 }

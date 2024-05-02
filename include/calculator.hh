@@ -5,14 +5,15 @@
 
 using namespace std;
 
-class calculator{
-    public:
-        calculator(string input);
-        bool evaluatorOfExpression();
-    private:
-        string inputUser;
-        bool controlWhile;
-        void printResult(double numberToPrint);
+class calculator {
+public:
+  calculator(string input);
+  bool evaluatorOfExpression();
+
+private:
+  string inputUser;
+  bool controlWhile;
+  void printResult(double numberToPrint);
 };
 
 #endif
