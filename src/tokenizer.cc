@@ -10,12 +10,15 @@ using namespace std;
 tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   int position = 0;
   bool validation = true;
+  state = TokenType::TOKEN_TYPE_UNKNOWN;
   while (position < inputuser.size() && validation) {
-    position = addNumber(position);
-    position = addOperator(position);
-    position = addParethesis(position);
-    if (state == TokenType::TOKEN_TYPE_UNKNOWN || inputuser[position] == ' ') {
+    if (inputuser[position] == ' ') {
+      state = TokenType::TOKEN_TYPE_UNKNOWN;
       position++;
+    }else{
+      position = addNumber(position);
+      position = addOperator(position);
+      position = addParethesis(position);
     }
   }
 }
@@ -46,20 +49,22 @@ int tokenizer::addNumber(int positionD) {
         }
       }
       positionD++;
+     
     }
     string numberSave = to_string(saveNumber);
     Token tokenPush(state, numberSave);
     tokenList.push(tokenPush);
 
-  } else {
-    state = TokenType::TOKEN_TYPE_UNKNOWN;
   }
   return positionD;
 }
 
 int tokenizer::addOperator(int positionD) {
+  if(state == TokenType::TOKEN_TYPE_OPERATOR){
+    throw runtime_error("No puede poner dos operadores juntos");
+  }
   string operatorSave;
-  state = TokenType::TOKEN_TYPE_OPERATOR;
+  
   bool isOperator = true;
   switch (inputUser[positionD]) {
   case '+':
@@ -92,13 +97,14 @@ int tokenizer::addOperator(int positionD) {
     break;
   case 'V':
     operatorSave = "V";
-    throw std::runtime_error("No puede ingresar 'V' ¿quiso decir 'v'?");
+    throw runtime_error("No puede ingresar 'V' ¿quiso decir 'v'?");
     break;
   default:
     isOperator = false;
     break;
   }
   if (isOperator) {
+    state = TokenType::TOKEN_TYPE_OPERATOR;
     Token tokenPush(state, operatorSave);
     tokenList.push(tokenPush);
   }
@@ -107,7 +113,7 @@ int tokenizer::addOperator(int positionD) {
 
 int tokenizer::addParethesis(int positionD) {
   string saveParenthesis;
-  state = TokenType::TOKEN_TYPE_PARENTHESIS;
+  
   bool isParenthesis = true;
   switch (inputUser[positionD]) {
   case '(':
@@ -133,8 +139,10 @@ int tokenizer::addParethesis(int positionD) {
     break;
   }
   if (isParenthesis) {
+    state = TokenType::TOKEN_TYPE_PARENTHESIS;
     Token tokenPush(state, saveParenthesis);
     tokenList.push(tokenPush);
+    
   }
   return positionD;
 }

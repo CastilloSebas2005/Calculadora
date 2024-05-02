@@ -12,7 +12,7 @@ int main() {
   cout << "Es un número: " << token.isNumber() << endl;
   cout << "Es un operador: " << token.isOperator() << endl;
   cout << "Número: " << token.getNumber() << endl;
-  tokenizer pruebita("5+2{2*(5+2)}");
+  tokenizer pruebita(" 5 +  2  { 2 *( 5 + 2 )}");
   pruebita.seeList();
   return 0;
 }
