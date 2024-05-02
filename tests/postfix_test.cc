@@ -16,7 +16,7 @@ TEST(postifixTest, sum){
     double result = test.getResult();
     EXPECT_EQ(result, 4);
 }
-TEST(postifixTest, sum){
+TEST(postifixTest, subs){
     //test resta
     tokenizer res("5 - 4");
     queue <Token> list = res.getList();
@@ -27,7 +27,7 @@ TEST(postifixTest, sum){
     double result = test.getResult();
     EXPECT_EQ(result, 1);
 }
-TEST(postifixTest, sum){
+TEST(postifixTest, mult){
     //test multiplicación
     tokenizer mult("5*4");
     queue <Token> list = mult.getList();
@@ -38,7 +38,7 @@ TEST(postifixTest, sum){
     double result = test.getResult();
     EXPECT_EQ(result, 20);
 }
-TEST(postifixTest, sum){
+TEST(postifixTest, div){
     //test división
     tokenizer div("25/5");
     queue <Token> list = div.getList();
@@ -49,7 +49,7 @@ TEST(postifixTest, sum){
     double result = test.getResult();
     EXPECT_EQ(result, 5);
 }
-TEST(postifixTest, sum){
+TEST(postifixTest, exp){
     //test potencia
     tokenizer pow("6^2");
     queue <Token> list = pow.getList();
@@ -60,7 +60,7 @@ TEST(postifixTest, sum){
     double result = test.getResult();
     EXPECT_EQ(result, 36);
 }
-TEST(postifixTest, sum){
+TEST(postifixTest, log){
     //test logaritmo
     tokenizer log("32_2");
     queue <Token> list = log.getList();
@@ -71,7 +71,7 @@ TEST(postifixTest, sum){
     double result = test.getResult();
     EXPECT_EQ(result, 5);
 }
-TEST(postifixTest, sum){
+TEST(postifixTest, rad){
     //test raiz
     tokenizer root("2v64");
     queue <Token> list = root.getList();
