@@ -7,11 +7,12 @@ using namespace std;
 
 class calculator{
     public:
-        calculator();
+        calculator(string input);
+        bool evaluatorOfExpression();
     private:
         string inputUser;
+        bool controlWhile;
         void printResult(int numberToPrint);
-        void evaluatorOfExpression(string input);
 };
 
 #endif
