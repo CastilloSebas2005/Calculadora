@@ -12,7 +12,7 @@ class calculator{
     private:
         string inputUser;
         bool controlWhile;
-        void printResult(int numberToPrint);
+        void printResult(double numberToPrint);
 };
 
 #endif

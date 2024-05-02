@@ -106,10 +106,6 @@ int tokenizer::addOperator(int positionD) {
     operatorSave = "^";
     positionD++;
     break;
-  case 'V':
-    operatorSave = "V";
-    throw runtime_error("ERROR: No puede ingresar 'V' ¿quiso decir 'v'?");
-    break;
   default:
     isOperator = false;
     break;
@@ -170,7 +166,7 @@ void tokenizer::seeList() {
 
 bool tokenizer::rareOperator(int positionD){
   return (inputUser[positionD] >= 65 && inputUser[positionD] <= 90) 
-  || (inputUser[positionD] >= 97 && inputUser[positionD] <= 122) 
+  || (inputUser[positionD] >= 97 && inputUser[positionD] <= 122 && inputUser[positionD] != 118) 
   || inputUser[positionD] == '='
   || inputUser[positionD] == '&'
   || inputUser[positionD] == '|';

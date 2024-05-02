@@ -12,7 +12,7 @@
 
 calculator::calculator(string input): inputUser(input){}
 
-void calculator::printResult(int numberToPrint){
+void calculator::printResult(double numberToPrint){
     cout<<"El resultado de su operación es: " << numberToPrint << endl;
 }
 
