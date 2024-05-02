@@ -1,5 +1,6 @@
 #include <iostream>
-#include <queue> //esta estructura de datos fue tomada de https://cplusplus.com/reference/queue/queue/
+//esta estructura de datos fue tomada de https://cplusplus.com/reference/queue/queue/
+#include <queue> 
 #include <stdexcept>
 #include <string>
 #include <token.hh>
@@ -23,6 +24,7 @@ tokenizer::tokenizer(string inputuser) : inputUser(inputuser) {
   }
 }
 
+//funcion que añade un número a la cola de tokens y captura un error por si tiene doble decimal
 int tokenizer::addNumber(int positionD) {
   if (inputUser[positionD] >= '0' && inputUser[positionD] <= '9') {
     bool decimal = false;
@@ -59,6 +61,7 @@ int tokenizer::addNumber(int positionD) {
   return positionD;
 }
 
+//función que añade un operador a la cola de tokens y captura algunos errores
 int tokenizer::addOperator(int positionD) {
   if(state == TokenType::TOKEN_TYPE_OPERATOR){
     throw runtime_error("No puede poner dos operadores juntos");
@@ -111,6 +114,7 @@ int tokenizer::addOperator(int positionD) {
   return positionD;
 }
 
+//función que añade un parentesis a la cola de tokens dependiendo del tipo de paréntesis
 int tokenizer::addParethesis(int positionD) {
   string saveParenthesis;
   
